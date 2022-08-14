@@ -1,0 +1,73 @@
+<div id="contact_page">
+
+<h1 class="page_heading">{{ page.title }}</h1>
+
+{% if settings.contacts_map_toggle %}
+    <!--  GOOGLE MAP -->
+    {% include 'widget-googlemap' %}
+{% endif %}
+
+<div class="rte">
+    {{ page.content }}
+</div>
+
+{% form 'contact' %}
+
+{% if form.posted_successfully? %}
+<div class="alert alert-success">
+    <p>Thanks for contacting us! We'll get back to you as soon as possible.</p>
+</div>
+{% endif %}
+
+{% if form.errors %}
+<div class="alert alert-warning">
+    <!-- {{ form.errors.size }} or {{ form.errors | size }} -->
+    <p>Oops, sorry. We were unable to submit your inquiry because it contained {{ form.errors | size | pluralize: 'an error', 'a few errors' }}. Please correct the following and submit again:</p>
+    {% for field in form.errors %}
+    <p>The {{ field | capitalize | replace: 'Body', 'Message' }} field {{ form.errors.messages[field] }}.</p>
+    {% endfor %}
+</div>
+{% endif %}
+   
+<div id="contactFormWrapper">
+
+    <div class="row">
+        <div class="col-sm-4 form-group">
+            <label for="contactFormName">Your Name:</label>
+            <input type="text" class="form-control" id="contactFormName" name="contact[name]" placeholder="" />
+        </div>
+        <div class="col-sm-4 form-group">
+            <label for="contactFormEmail">Email:</label>
+            <input type="email" class="form-control" id="contactFormEmail" name="contact[email]" placeholder="" />
+        </div>
+        <div class="col-sm-4 form-group">
+            <label for="contactFormTelephone">Phone Number:</label>
+            <input type="tel" class="form-control" id="contactFormTelephone" name="contact[phone]" placeholder="" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 form-group">
+            <label for="contactFormMessage">Message:</label>
+            <textarea class="form-control" rows="5" cols="75" id="contactFormMessage" name="contact[body]" placeholder=""></textarea>
+        </div>
+    </div>
+
+    <div class="btn-toolbar form-group">
+        <input type="submit" id="contactFormSubmit" value="Send" class="btn btn-alt" />
+      	<input type="reset" value="Clear" class="btn btn-info">
+    </div>
+
+</div><!-- contactFormWrapper -->
+
+{% endform %}
+
+</div>
+
+<script>
+jQuery(function($){
+    $(document).ready(function() {
+        $('#contact_page form').formValidation();
+    });
+});
+</script>

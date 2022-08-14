@@ -1,0 +1,23 @@
+<div class="col-xs-6 col-sm-3 collection_listing_item {% cycle 'step2': 'item_2_1', '' %} {% cycle 'step4': 'item_4_1', '', '', '' %}">
+	<div class="clearfix">
+		<div class="collection_img">
+			<a href="{{ collection.url }}">
+				{% if collection.image %}
+					<img src="{{ collection.image.src | collection_img_url: 'medium' }}" alt="{{ collection.image.alt | escape }}" />
+				{% else %}
+					<img src="{{ collection.products.first.featured_image.src | product_img_url: 'medium' }}" alt="{{ collection.title | escape }}" />
+				{% endif %}
+			</a>
+		</div>
+
+		<div class="collection_info">
+			<h4 class="collection_name"><a href="{{ collection.url }}">{{ collection.title }}</a></h4>
+
+			<p class="collection_products">{{ collection.all_products_count }} {{ collection.all_products_count | pluralize:'product','products' }}</p>
+
+			<p class="collection_desc">{{ collection.description | truncate:70 }}</p>
+
+			<a class="btn" href="{{ collection.url }}">View products</a>
+		</div>
+	</div>
+</div>

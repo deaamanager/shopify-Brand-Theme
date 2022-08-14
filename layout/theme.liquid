@@ -1,0 +1,317 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->  
+<head>
+<!-- META TAGS -->
+	<meta charset="utf-8">
+	<!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<![endif]-->
+	{% if page_description %}<meta name="description" content="{{ page_description }}" />{% endif %}
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<!-- PAGE TITLE -->
+	{% case template %}{% when 'index' %}<title>{{ shop.name }} | {{ page_title }}</title>{% when '404' %}<title>Page Not Found | {{ shop.name }}</title>{% else %}<title>{{ page_title }} | {{ shop.name }}</title>{% endcase %}
+
+<!-- LINK TAGS -->
+	<link rel="canonical" href="{{ canonical_url | replace: '&q', '&amp;q'}} " />
+	<link rel="shortcut icon" href="{{ 'favicon.ico' | asset_url }}" type="image/x-icon" />
+
+<!-- GOOGLE FONTS -->
+	{% if settings.base_font and settings.base_font contains 'google_fonts:' %}
+		<link href="//fonts.googleapis.com/css?family={{ settings.base_font | replace:'google_fonts:' | replace: ' ','+' }}:300,400,700,900" rel="stylesheet" type="text/css">
+	{% endif %}
+	{% if settings.heading_font and settings.heading_font contains 'google_fonts:' and settings.heading_font != settings.base_font %}
+		<link href="//fonts.googleapis.com/css?family={{ settings.heading_font | replace:'google_fonts:' | replace: ' ','+' }}:300,400,700,900" rel="stylesheet" type="text/css">
+	{% endif %}
+
+<!-- CSS -->
+	{{ 'bootstrap.css' | asset_url | stylesheet_tag }} 
+	{{ 'font-awesome.css' | asset_url | stylesheet_tag }}
+	{{ 'material-icons.css' | asset_url | stylesheet_tag }}
+	{{ 'assets.css' | asset_url | stylesheet_tag }}
+	{{ 'style.css' | asset_url | stylesheet_tag }}
+	{{ 'responsive.css' | asset_url | stylesheet_tag }}
+	<!--[if IE 9]>
+	{{ 'ie9.css' | asset_url | stylesheet_tag }}
+	<![endif]-->
+
+<!-- JS -->
+	{{ 'assets.js' | asset_url | script_tag }}
+
+<!-- SHOPIFY SERVICE SCRIPTS -->
+	{{ content_for_header }}
+</head>
+<body {% if template == 'index' and settings.homepage_map_toggle %}onload="initialize()" {% elsif template == 'page.contact' and settings.contacts_map_toggle %}onload="initialize()"{% endif %} id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}">
+
+<div id="page_preloader"><div class="global_loader"></div></div>
+
+<!--[if lt IE 9]>
+<div class="old_browsers"><a href="//windows.microsoft.com/en-us/internet-explorer/download-ie"><i class="fa fa-warning"></i>You are using an outdated version of Internet Explorer. Upgrade today for a faster, safer browsing experience.</a></div>
+<![endif]-->
+
+{% if settings.cookies_policy_toggle %}
+	<!-- COOKIES POLICY NOTIFICATION -->
+	{% include 'widget-cookies' %}
+{% endif %}
+
+{% if settings.newsletter_popup_toggle %}
+	<!-- NEWSLETTER POPUP -->
+	{% include 'widget-newsletter-popup' %}
+{% endif %}
+
+<div id="wrapper1">
+<div id="wrapper2">
+
+
+<!-- HEADER -->
+
+<header>
+	<div class="header_wrap" style="background-image: url( {{ 'apparel_top_banner.png' | asset_url }} );">
+		<div class="banner_text">
+			<h3><b>Upgrade</b> to a Fully-fledged <b>Styler!</b></h3>
+			<h4>Featuring a additional pages, plugins, beautiful pictures and fully functionality!</h4>
+			<a href="https://www.templatemonster.com/shopify-themes/57943.html" class="btn_banner">SHOP NOW!</a>
+		</div>
+	</div>
+<div id="header_top" class="clearfix">
+
+	<!-- LOGO -->
+	<div class="logo_main">
+		<a href="/">
+			{% if settings.use_logo %}
+				{{ 'logo.png' | asset_url | img_tag: shop.name }}
+			{% else %}
+				<b>{{ shop.name }}</b>
+			{% endif %}
+		</a>
+	</div>
+
+	<div class="header_right">
+
+		<!-- HEADER CART -->
+		<div class="header_cart">
+			<a href="/cart"><span class="icon material-icons-shopping_basket"></span><span id="cart_items">{{ cart.item_count }}</span></a>
+		</div>
+
+		{% if shop.customer_accounts_enabled %}
+		<!-- USER MENU -->
+		<ul class="header_user">
+			{% if customer %}
+				<li><a href="/account" class="user_name material-icons-person"><span class="user_name_text">{{ customer.first_name | truncate:15 }}</span></a></li>
+				<li>{{ 'Log out' | customer_logout_link }}</li>
+			{% else %}
+				<li>{{ 'Log in' | customer_login_link }}</li>
+				{% if shop.customer_accounts_optional %}
+					<li>{{ 'Create an account' | customer_register_link }}</li>
+				{% endif %}
+			{% endif %}
+		</ul>
+		{% endif %}
+
+		{% if settings.show_multiple_currencies %}
+			<!-- CURRENCIES -->
+			{% include 'widget-currencies-switcher' %}
+		{% endif %}
+
+		<!-- HEADER SEARCH -->
+		<div class="header_search">
+			<form action="/search" method="get" class="search-form" role="search">
+				<input id="search-field" name="q" type="text" placeholder="SEARCH.." class="hint" />
+				<button id="search-submit" type="submit"><span class="material-icons-search"></span></button>
+			</form>
+		</div>
+
+	</div>
+
+	<!-- MEGAMENU -->
+	{% include 'widget-megamenu' %}
+
+</div>
+</header>
+
+
+<div id="wrapper3">
+
+{% if template == 'index' %}
+	<!-- NIVOSLIDER -->
+	{% include 'widget-homepage-nivoslider' %}
+
+	<!-- SHOWCASE CUSTOM BLOCKS -->
+	{% if settings.custom_showcases_toggle %}
+	{% include 'widget-homepage-showcase' %}
+	{% endif %}
+{% endif %}
+
+<!-- BREADCRUMBS -->
+{% include 'widget-breadcrumbs' %}
+
+<!-- MAIN CONTENT -->
+{% case template %}
+	{% when 'index', 'page.homepage', 'page.noasides', 'list-collections', 'product', 'cart' %}
+		{% assign width_sidebars = false %}
+	{% else %}
+		{% assign width_sidebars = true %}
+{% endcase %}
+
+{% if template contains 'customers' %}
+	{% assign width_sidebars = false %}
+{% endif %}
+
+<div id="main" role="main">
+	<div class="container">
+		<div class="row">
+			{% comment %}<div class="main_content {% if width_sidebars == true %}col-sm-9{% else %}col-sm-12{% endif %} {% if settings.sidebar_toggle == 'sidebar_toggle_left' and width_sidebars == true %}col-sm-push-3{% endif %}">{% endcomment %}
+			<div class="main_content {% if width_sidebars == true %}{% if template == 'blog' or template == 'article' %} col-sm-8{% else %} col-sm-9{% endif %}{% if settings.sidebar_toggle == 'sidebar_toggle_left' %}{% if template == 'blog' or template == 'article' %} col-sm-push-4{% else %} col-sm-push-3{% endif %}{% endif %}{% else %} col-sm-12{% endif %}">
+				{% if template == 'list-collections' %}
+					{% include 'collection-listing' %}
+				{% else %}
+					{{ content_for_layout }}
+				{% endif %}
+			</div>
+
+			{% if width_sidebars == true %}
+				{% comment %}<div class="sidebar col-sm-3 {% if settings.sidebar_toggle == 'sidebar_toggle_left' %}sidebar_left col-sm-pull-9{% else %}sidebar_right{% endif %}">{% endcomment %}
+				<div class="sidebar{% if template == 'blog' or template == 'article' %} col-sm-4{% else %} col-sm-3{% endif %}{% if settings.sidebar_toggle == 'sidebar_toggle_left' %} sidebar_left{% if template == 'blog' or template == 'article' %} col-sm-pull-8{% else %} col-sm-pull-9{% endif %}{% else %} sidebar_right{% endif %}">
+					{% case template %}
+						{% when 'blog', 'article' %}
+							{% include 'widget-sidebar-blog' %}
+						{% else %}
+							{% if settings.sidebar_widget_collections_toggle %}
+								{% include 'widget-sidebar-collections' %}
+							{% endif %}
+							{% if settings.sidebar_widget_types_toggle %}
+								{% include 'widget-sidebar-types' %}
+							{% endif %}
+							{% if settings.sidebar_widget_vendors_toggle %}
+								{% include 'widget-sidebar-vendors' %}
+							{% endif %}
+							{% if settings.sidebar_widget_products_toggle %}
+								{% include 'widget-sidebar-products' %}
+							{% endif %}
+					{% endcase %}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% if template == 'index' and settings.custom_bottom_toggle %}
+	<!--  CUSTOM BOTTOM -->
+	{% include 'widget-homepage-custom_bottom' %}
+{% endif %}
+
+{% if template == 'index' and settings.homepage_blog_toggle %}
+{% endif %}
+
+<!-- FOOTER -->
+<footer>
+<div class="container footer_border">
+	<div class="row">
+		<div class="col-lg-3 col-sm-4 col-xs-4 footer_block footer_block__1">
+			<h3>{{ settings.footer_block1_title }}</h3>
+			<ul class="footer_links">
+				{% for link in linklists[settings.footer_block1_list].links limit:7 %}
+				<li {% if link.active %}class="active"{% endif %}>{{ link.title | link_to: link.url }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+
+		<div class="col-lg-3 col-sm-4 col-xs-4 footer_block footer_block__2">
+			<h3>{{ settings.footer_block2_title }}</h3>
+			<ul class="footer_links">
+				{% for link in linklists[settings.footer_block2_list].links limit:7 %}
+				<li {% if link.active %}class="active"{% endif %}>{{ link.title | link_to: link.url }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+
+		<div class="col-lg-3 col-sm-4 col-xs-4 footer_block footer_block__3">
+			<h3>{{ settings.footer_block3_title }}</h3>
+			<ul class="footer_links">
+				{% for link in linklists[settings.footer_block3_list].links limit:7 %}
+				<li {% if link.active %}class="active"{% endif %}>{{ link.title | link_to: link.url }}</li>
+				{% endfor %}
+			</ul>
+		</div>    
+
+		{% if settings.footer_newsletter %}
+		<div class="col-lg-3 col-sm-12 footer_block footer_block__4">
+			<h3>{{ settings.footer_block4_title }}</h3>
+
+			<div class="footer_newsletter">
+			{% case settings.newsletter_form_type %}
+				{% when 'newsletter_shopify' %}
+					{% form 'customer' %}
+						<input type="hidden" name="contact[tags]" value="prospect,newsletter" id="contact_tags1" />
+						<input type="hidden" name="contact[first_name]" value="Newsletter" id="newsletter-first-name1" />
+						<input type="hidden" name="contact[last_name]" value="Subscriber" id="newsletter-last-name1" />
+						<input type="email" name="contact[email]" id="contact_email_footer" placeholder="ENTER YOUR EMAIL" />
+						<button type="submit" name="subscribe" class="btn"><span class="material-icons-arrow_forward"></span></button>
+						{% if form.posted_successfully? %}
+							<p class="form_status success">Thank you for signing up!</p>
+						{% endif %}
+						{% if form.errors %}
+							<p class="form_status error">{% for field in form.errors %}{{ field }} {{ form.errors.messages[field] }}{% endfor %}</p>
+						{% endif %}
+					{% endform %}
+				{% when 'newsletter_mailchimp' %}
+					<form action="{{ settings.newsletter_mailchimp_url }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form">
+						<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+						<button type="submit" name="subscribe" id="mc-embedded-subscribe" class="btn"><span class="material-icons-arrow_forward"></span></button>
+					</form>
+			{% endcase %}
+			 </div>
+
+ 			<ul class="footer_social">
+				{% if settings.social_twitter != blank %}<li><a href="{{ settings.social_twitter }}"><i class="fa fa-twitter"></i></a></li>{% endif %}
+				{% if settings.social_facebook != blank %}<li><a href="{{ settings.social_facebook }}"><i class="fa fa-facebook"></i></a></li>{% endif %}
+				{% if settings.social_youtube != blank %}<li><a href="{{ settings.social_youtube }}"><i class="fa fa-youtube"></i></a></li>{% endif %}
+				{% if settings.social_instagram != blank %}<li><a href="{{ settings.social_instagram }}"><i class="fa fa-instagram"></i></a></li>{% endif %}
+				{% if settings.social_pinterest != blank %}<li><a href="{{ settings.social_pinterest }}"><i class="fa fa-pinterest"></i></a></li>{% endif %}
+				{% if settings.social_googleplus != blank %}<li><a href="{{ settings.social_googleplus }}"><i class="fa fa-google-plus"></i></a></li>{% endif %}
+				{% if settings.social_tumblr != blank %}<li><a href="{{ settings.social_tumblr }}"><i class="fa fa-tumblr"></i></a></li>{% endif %}
+			</ul>
+		</div>
+		{% endif %}
+	</div>
+
+</div>
+
+{% if template == 'index' and settings.homepage_map_toggle %}
+	<!--  GOOGLE MAP -->
+	{% include 'widget-googlemap' %}
+{% endif %}
+<div class="copyright">
+<div class="container">
+	<p role="contentinfo">&copy; {{ "now" | date: "%Y" }} {{ shop.name }}. All Rights Reserved. {{ powered_by_link }}.</p><!-- Design by templatemonster.com -->
+</div>
+</div>
+
+	<div class="footer_banner" style="background-image: url( {{ 'apparel_footer_banner.png' | asset_url }} );">
+		<div class="banner_text">
+			<h3><b>Upgrade</b> to a Fully-fledged <b>Styler!</b></h3>
+			<h4>Featuring a additional pages, plugins, beautiful pictures and fully functionality!</h4>
+			<a href="https://www.templatemonster.com/shopify-themes/57943.html" class="btn_banner">VIEW NOW!</a>
+		</div>
+	</div>
+
+</footer>
+
+</div><!-- / #wrapper3 -->
+</div><!-- / #wrapper2 -->
+</div><!-- / #wrapper1 -->
+
+<!-- olark chat -->
+{% if settings.olark_chat_toggle %}
+	{{ settings.olark_chat_code }}
+{% endif %}
+
+<!-- JS -->
+{% include 'snippet-js-footer' %}
+
+</body>
+</html>

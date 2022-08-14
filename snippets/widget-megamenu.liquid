@@ -1,0 +1,199 @@
+<div id="megamenu">
+	<div class="header_wrap stick_banner" style="background-image: url( {{ 'apparel_top_banner.png' | asset_url }} );">
+		<div class="banner_text">
+			<h3><b>Upgrade</b> to a Fully-fledged <b>Styler!</b></h3>
+			<h4>Featuring a additional pages, plugins, beautiful pictures and fully functionality!</h4>
+			<a href="https://www.templatemonster.com/shopify-themes/57943.html" class="btn_banner">SHOP NOW!</a>
+		</div>
+	</div>
+<div class="container">
+	<ul class="sf-menu megamenu_desktop visible-md visible-lg">
+		<li class="megamenu_item_1">
+			<a href="{{ settings.megamenu1_link }}">{{ settings.megamenu1_text }}{% if settings.megamenu1_badge and settings.megamenu1_badge != '' %}<span class="menu_badge">{{ settings.megamenu1_badge }}</span>{% endif %}</a>
+		</li>
+
+		<li class="megamenu_item_2">
+			<a href="{{ settings.megamenu2_link }}">{{ settings.megamenu2_text }}{% if settings.megamenu2_badge and settings.megamenu2_badge != '' %}<span class="menu_badge">{{ settings.megamenu2_badge }}</span>{% endif %}</a>
+			{% if settings.megamenu2_sub_toggle and settings.megamenu2_sub_toggle != '' %}
+			<ul>
+			<li>
+				<div class="submenu submenu_2">
+					<div class="row">
+						{% for i in (1..4) %}
+							{% capture linklist_iteration %}megamenu2_sub_col__{{ i }}{% endcapture %}
+							{% capture linklist_name %}{{ settings[linklist_iteration] }}{% endcapture %}
+
+							<div class="col-sm-3">
+								<h4>{{ linklists[linklist_name].title }}</h4>
+								<ul>
+									{% for link in linklists[linklist_name].links %}
+										<li>{{ link.title | link_to: link.url }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="row banner_row">
+					{% for i in (1..2) %}
+						{% capture banner_toggle %}megamenu2_banner{{ i }}_toggle{% endcapture %}
+						{% capture banner_img_toggle %}megamenu2_banner{{ i }}_img_toggle{% endcapture %}
+						{% capture banner_img %}megamenu2_banner{{ i }}_img.jpg{% endcapture %}
+						{% capture banner_text1 %}megamenu2_banner{{ i }}_text1{% endcapture %}
+						{% capture banner_text2 %}megamenu2_banner{{ i }}_text2{% endcapture %}
+						{% capture banner_link %}megamenu2_banner{{ i }}_link{% endcapture %}
+
+						{% if settings[banner_toggle] %}
+						<div class="megamenu_banner megamenu_banner{{ i }} col-sm-6">
+							{% if settings[banner_link] and settings[banner_link] != "" %}
+							<a href="{{ settings[banner_link] }}" class="banner_ins">
+							{% else %}
+							<div class="banner_ins">
+							{% endif %}
+								{% if settings[banner_img_toggle] %}
+								<img src="{{ banner_img | asset_url }}" alt="{{ settings[banner_text1] settings[banner_text2] }}">
+								{% endif %}
+								<div class="banner_text_wr">
+									<h3>
+										{{ settings[banner_text1] }}
+										<span>{{ settings[banner_text2] }}</span>
+									</h3>
+								</div>
+							{% if settings[banner_link] and settings[banner_link] != "" %}
+							</a>
+							{% else %}
+							</div>
+							{% endif %}
+						</div>
+						{% endif %}
+
+					{% endfor %}
+					</div>
+
+				</div>
+			</li>
+			</ul>
+			{% endif %}
+		</li>
+
+		<li class="megamenu_item_4">
+			<a href="{{ collections[settings.megamenu4_sub_collection].url }}">{{ settings.megamenu4_text }}{% if settings.megamenu4_badge and settings.megamenu4_badge != '' %}<span class="menu_badge">{{ settings.megamenu4_badge }}</span>{% endif %}</a>
+			{% if settings.megamenu4_sub_toggle and settings.megamenu4_sub_toggle != '' %}
+			<ul>
+			<li>
+				<div class="submenu submenu_4">
+				<h4 class="megamenu_title">{{ settings.megamenu4_title }}</h4>
+					<div class="row">
+						{% for product in collections[settings.megamenu4_sub_collection].products limit:4 %}
+						<div class="col-sm-2 col1">
+							<div class="product_img">  
+								<a href="{{ product.url | within: collection }}">
+									<img src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}" />
+								</a>
+							</div>
+
+							<div class="product_name">
+								<a href="{{ product.url | within: collection }}">{{ product.title | truncate:50 }}</a>
+							</div>
+
+							<div class="product_price">
+								{% if product.price_varies %}From{% endif %}
+								<span class="money">{{ product.price | money }}</span>
+								{% if product.compare_at_price and product.compare_at_price > product.price %}
+								<span class="money compare-at-price">{{ product.compare_at_price | money }}</span>
+								{% endif %}
+							</div>
+						</div>
+						{% endfor %}
+
+						<div class="col-sm-4 banner_col">
+						{% for i in (1..2) %}
+							{% capture banner_toggle %}megamenu4_banner{{ i }}_toggle{% endcapture %}
+							{% capture banner_img_toggle %}megamenu4_banner{{ i }}_img_toggle{% endcapture %}
+							{% capture banner_img %}megamenu4_banner{{ i }}_img.jpg{% endcapture %}
+							{% capture banner_text1 %}megamenu4_banner{{ i }}_text1{% endcapture %}
+							{% capture banner_text2 %}megamenu4_banner{{ i }}_text2{% endcapture %}
+							{% capture banner_link %}megamenu4_banner{{ i }}_link{% endcapture %}
+
+							{% if settings[banner_toggle] %}
+							<div class="megamenu_banner megamenu_banner{{ i }}">
+								{% if settings[banner_link] and settings[banner_link] != "" %}
+								<a href="{{ settings[banner_link] }}" class="banner_ins">
+								{% else %}
+								<div class="banner_ins">
+								{% endif %}
+									{% if settings[banner_img_toggle] %}
+									<img src="{{ banner_img | asset_url }}" alt="{{ settings[banner_text1] settings[banner_text2] }}">
+									{% endif %}
+									<div class="banner_text_wr">
+										<h3>
+											{{ settings[banner_text1] }}
+											<span>{{ settings[banner_text2] }}</span>
+										</h3>
+									</div>
+								{% if settings[banner_link] and settings[banner_link] != "" %}
+								</a>
+								{% else %}
+								</div>
+								{% endif %}
+							</div>
+							{% endif %}
+
+						{% endfor %}
+						</div>
+					</div>
+				</div>
+			</li>
+			</ul>
+			{% endif %}
+		</li>
+	</ul>
+
+	<div class="megamenu_mobile visible-xs visible-sm">
+		<h2>{{ page_title }}<i></i></h2>
+		<ul class="level_1">
+			<li>
+				<a href="{{ settings.megamenu1_link }}">{{ settings.megamenu1_text }}</a>
+			</li>
+
+			<li>
+				<a href="{{ settings.megamenu2_link }}">{{ settings.megamenu2_text }}<i class="level_1_trigger"></i></a>
+
+				{% if settings.megamenu2_sub_toggle and settings.megamenu2_sub_toggle != '' %}
+				<ul class="level_2">
+					{% for i in (1..4) %}
+						{% capture linklist_iteration %}megamenu2_sub_col__{{ i }}{% endcapture %}
+						{% capture linklist_name %}{{ settings[linklist_iteration] }}{% endcapture %}
+
+						<li>
+							<a href="#">{{ linklists[linklist_name].title }}<i class="level_2_trigger"></i></a>
+							<ul class="level_3">
+								{% for link in linklists[linklist_name].links %}
+									<li>{{ link.title | link_to: link.url }}</li>
+								{% endfor %}
+							</ul>
+						</li>
+					{% endfor %}
+				</ul>
+				{% endif %}
+			</li>
+
+			<li>
+				<a href="{{ blogs[settings.megamenu3_blog_select].url }}">{{ settings.megamenu3_text }}</a>
+			</li>
+
+			<li>
+				<a href="{{ collections[settings.megamenu4_sub_collection].url }}">{{ settings.megamenu4_text }}</a>
+			</li>
+
+			<li>
+				<a href="{{ settings.megamenu5_link }}">{{ settings.megamenu5_text }}</a>
+			</li>
+
+			<li>
+				<a href="{{ settings.megamenu6_link }}">{{ settings.megamenu6_text }}</a>
+			</li>
+		</ul>
+	</div>
+</div>
+</div>

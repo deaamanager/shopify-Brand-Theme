@@ -1,0 +1,43 @@
+{% if settings.slider_toggle %}
+	<div class="slider_wrap">
+		<div class="nivoSlider">
+			{% for i in (1..5) %}
+				{% capture slide_toggle %}slide{{ i }}_toggle{% endcapture %}
+				{% capture slide_link %}slide{{ i }}_link{% endcapture %}
+				{% capture slide_image %}slide{{ i }}_image.jpg{% endcapture %}
+
+				{% if settings[slide_toggle] and settings[slide_toggle] != '' %}
+					{% if settings[slide_link] and settings[slide_link] != '' %}<a href="{{ settings[slide_link] }}">{% endif %}
+						<img src="{{ slide_image | asset_url }}" alt="" title="#htmlcaption-{{ i }}" />
+					{% if settings[slide_link] and settings[slide_link] != '' %}</a>{% endif %}
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+
+	{% if settings.slider_captions_toggle %}
+	<div class="caption_hidden">
+		{% for i in (1..5) %}
+			{% capture slide_link %}slide{{ i }}_link{% endcapture %}
+			{% capture caption1 %}slide{{ i }}_caption1{% endcapture %}
+			{% capture caption2 %}slide{{ i }}_caption2{% endcapture %}
+
+			<div id="htmlcaption-{{ i }}">
+				{% if settings[slide_link] and settings[slide_link] != '' %}<a href="{{ settings[slide_link] }}">{% endif %}
+				{% if settings.slider_logo_toggle %}
+					<div class="logo_main">
+						{% if settings.use_logo %}
+							{{ 'logo.png' | asset_url | img_tag: shop.name }}
+						{% else %}
+							<b>{{ shop.name }}</b>
+						{% endif %}
+					</div>
+				{% endif %}
+					{% if settings[caption1] and settings[caption1] != '' %}<h2>{{ settings[caption1] }}</h2>{% endif %}
+					{% if settings[caption2] and settings[caption2] != '' %}<h3>{{ settings[caption2] }}</h3>{% endif %}
+				{% if settings[slide_link] and settings[slide_link] != '' %}</a>{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+	{% endif %}

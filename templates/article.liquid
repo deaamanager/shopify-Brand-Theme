@@ -1,0 +1,144 @@
+{% paginate article.comments by 50 %}
+
+{% assign number_of_comments = article.comments_count %}
+
+{% comment %}If a comment was just submitted, and it has no blank fields.{% endcomment %}
+{% if comment and comment.created_at %}
+	{% assign number_of_comments = article.comments_count | plus: 1 %}
+{% endif %}
+
+<h3 class="page_heading"><a href="{{ blog.url }}">{{ blog.title }}</a> <a href="{{ blog.url }}.atom" target="_blank"></a></h3>
+
+<div class="blog_article">
+	<h3 class="article_title">{{ article.title }}</h3>
+
+	<div class="article_info">
+		<time class="article_date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%d %b %Y' }}</time>
+
+		<span class="article_author">{{ article.author }}</span>
+
+		{% if blog.comments_enabled? %}
+			<span class="article_comments">{{ article.comments_count }} {{ article.comments_count | pluralize: 'comment','comments' }}</span>
+		{% endif %}
+	</div>
+
+	<div class="article_content">
+		<div class="rte">{{ article.content }}</div>
+	</div>
+
+	<div class="article_footer">
+		{% if article.tags.size > 0 %}
+		<p class="blog_tags">
+			{% for tag in article.tags %}
+			<a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+			{% endfor %}
+		</p>
+		{% endif %}
+
+		<div class="addthis_sharing_toolbox"></div>
+
+		<div class="article_pagination">
+			{% if blog.previous_article %}
+				<a href="{{ blog.previous_article }}" class="btn article_prev">Previous post</a>
+			{% endif %}
+			{% if blog.next_article %}
+				<a href="{{ blog.next_article }}" class="btn article_next">Next post</a>
+			{% endif %}
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+{% if blog.comments_enabled? %}
+	<div id="article_comments">
+		{% if article.comments_count != 0 %}
+			<div class="article_comments__list">
+
+				<h3>Comments</h3>
+
+				{% if number_of_comments > 0 %}
+				<ul>
+					{% for comment in article.comments %}
+						<li id="{{ comment.id }}" class="comment{% unless number_of_comments > article.comments_count %}{% if forloop.first %} first{% endif %}{% endunless %}{% if forloop.last %} last {% endif %}">
+							<p class="comment_author">
+								<b>{{ comment.author }}</b>
+								<time class="article_date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ comment.created_at | date: "%B %d, %Y" }}<span>{{ comment.created_at | date: "%I:%M %p" }}</span></time>
+							</p>
+
+							<p class="comment_content">{{ comment.content | strip_html }}</p>
+						</li>
+					{% endfor %}
+				</ul>
+				{% endif %}
+			      
+				{% if paginate.pages > 1 %}
+					<div id="pagination" class="pagination">{{ paginate | default_pagination }}</div>
+				{% endif %}
+			</div>
+		{% endif %}
+
+		<div class="article_comments__form">
+			{% form article %}
+				<h3>Leave a comment</h3>
+
+				{% if comment and comment.created_at %}
+					<div class="alert alert-success">
+					{% if blog.moderated? %}
+					Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.
+					{% else %}
+					Your comment was posted successfully! Thank you!
+					{% endif %}
+				</div>
+				{% endif %}
+
+				{% if form.errors %}
+					<p class="alert alert-error feedback">
+						{{ settings.comments_error_message }}
+						<ul>
+						{% for field in form.errors %}
+							<li>The {{ field | capitalize | replace: 'Body', 'Message' }} field {{ form.errors.messages[field] }}.</li>
+						{% endfor %}
+						</ul>
+					</p>
+				{% endif %}
+
+				{% if customer %}
+					<input type="hidden" name="comment[author]" value="{{ customer.first_name }} {{ customer.last_name }}">
+					<input type="hidden" name="comment[email]" value="{{ customer.email }}">
+				{% else %}
+					<div class="form-group form_row__1">
+						<div class="row">
+							<div class="col-lg-6">
+								<label for="comment-author">Name</label>
+								<input class="form-control" type="text" name="comment[author]" placeholder="" id="comment-author" value="{{ form.author }}" />
+							</div>
+
+							<div class="col-lg-6">
+								<label for="comment-email">Email</label>
+								<input class="form-control" type="email" name="comment[email]" placeholder="" id="comment-email" value="{{ form.email }}" />
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+				<div class="form-group form_row__2">
+					<label for="comment-body">Message</label>
+					<textarea class="form-control" name="comment[body]" id="comment-body">{{ form.body }}</textarea>
+				</div>
+
+				<button type="submit" class="btn">Post comment</button>
+			{% endform %}
+		</div>
+	</div>
+{% endif %}
+
+</div>
+
+{% endpaginate %}
+
+<script>
+jQuery(function($){
+	$(document).ready(function() {
+		$('#article_comments form').formValidation();
+	});
+});
+</script>

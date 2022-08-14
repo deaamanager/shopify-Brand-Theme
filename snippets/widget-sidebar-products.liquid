@@ -1,0 +1,36 @@
+<div class="sidebar_widget sidebar_widget__products">
+    <h3 class="widget_header">{{ settings.sidebar_widget_products_title }}</h3>
+    <div class="widget_content">
+        <ul class="list_products">
+        {% for product in collections[settings.sidebar_widget_products_collection].products limit:3 %}
+            <li class="product">
+              	<div class="clearfix">
+                    <div class="product_img">  
+                        <a href="{{ product.url | within: collection }}">
+                            <img src="{{ product.featured_image.src | product_img_url: 'compact' }}" alt="{{ product.featured_image.alt | escape }}" />
+                        </a>
+                    </div>
+
+                    <div class="product_info">
+                        <div class="product_name">
+                            <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+                        </div>
+
+                        <div class="product_price">
+                            <span class="money">{% if product.price_varies %}From {% endif %}{{ product.price | money }}</span>
+                            {% if product.compare_at_price and product.compare_at_price > product.price %}
+                                <span class="money compare-at-price">{{ product.compare_at_price | money }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="product_links">
+                            {% include "snippet-add-to-cart" %}         
+                            <a class="btn material-icons-info icon" href="{{ product.url | within: collection }}"><span class="text">View</span></a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<h2 class="page_heading">Collections</h2>
+
+<div class="collection_listing_main">
+	<div class="row">
+	    {% for collection in collections %}
+	        {% unless collection.handle == 'all' or collection.handle == 'frontpage' %}
+	            {% include 'collection-listing-item' %}
+	        {% endunless %}
+	    {% endfor %}
+	</div>
+</div>

@@ -1,0 +1,13 @@
+<div class="sidebar_widget sidebar_widget__vendors">
+    <h3 class="widget_header">Product Vendors</h3>
+
+    <div class="widget_content">
+        <ul>
+            {% for vendor in shop.vendors %}
+                {% capture tmp_type %}{{ vendor | remove:' ' | remove:'&amp;' | remove:'&' }}{% endcapture %}
+                {% capture tmp_title %}{{ page_title | remove:' ' | remove:'&amp;' | remove:'&' }}{% endcapture %}
+                <li class="{{ vendor }}{% if tmp_type == tmp_title %} active{% endif %}">{{ vendor | link_to_vendor }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<h2 class="page_heading">{{ collection.title }}</h2>
+
+{% comment %}Listing all tags within the current collection. Shopify uses product tags to manage subcategories inside collections. See 'How do I create subcategories of products?' at http://support.shopify.com/customer/portal/articles/75425 for details.{% endcomment %}
+{% if collection.all_tags.size > 0 %}
+	<ul class="tags clearfix">
+		<li{% unless current_tags %} class="active"{% endunless %}>
+			{% comment %}Good for /collections/all collection and regular collections{% endcomment %}
+			{% if collection.handle %}
+				<a href="/collections/{{ collection.handle }}">All</a>
+			{% comment %}Good for automatic type collections{% endcomment %}
+			{% elsif collection.products.first.type == collection.title %}
+				<a href="{{ collection.title | url_for_type }}">All</a>
+			{% comment %}Good for automatic vendor collections{% endcomment %}
+			{% elsif collection.products.first.vendor == collection.title %}
+				<a href="{{ collection.title | url_for_vendor }}">All</a>
+			{% endif %}
+		</li> 
+		{% for tag in collection.all_tags %}
+			{% if current_tags contains tag %}
+				<li class="active">{{ tag | link_to_remove_tag: tag }}</li>
+			{% else %}
+				<li>{{ tag | link_to_tag: tag }}</li>
+			{% endif %}
+		{% endfor %} 
+	</ul>
+{% endif %}
+
+<!-- collection image & description -->
+{% if collection.image != blank or collection.description.size > 0 %}
+	<div class="row collection_info">
+		{% if collection.image != blank %}<div class="col-sm-3 collection_img"><img src="{{ collection.image.src | collection_img_url: 'medium' }}" alt="{{ collection.image.alt | escape }}" /></div>{% endif %}
+		<div class="{% if collection.image != blank %}col-sm-9{% else %}col-sm-12{% endif %} collection_desc">
+			{% if collection.description.size > 0 %}
+			<div class="rte">
+			{{ collection.description }}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+{% endif %}
+
+{% assign image_size = settings.homepage_listing_image_size %}
+
+<!-- products sorting -->
+<div class="product_listing_controls">
+	<ul class="product_listing_toggle">
+		<li id="toggle_grid" class="active"><i class="fa fa-th"></i></li>
+		<li id="toggle_list"><i class="fa fa-th-list"></i></li>
+	</ul>
+
+	<div class="sort_by">
+		<label>Sort by</label>
+
+		<select id="sort_by_select" class="form-control">
+			<option value="manual">Featured</option>
+			<option value="best-selling">Best Selling</option>
+			<option value="title-ascending">Name: A-Z</option>
+			<option value="title-descending">Name: Z-A</option>
+			<option value="price-ascending">Price: Low to High</option>
+			<option value="price-descending">Price: High to Low</option>
+			<option value="created-ascending">Oldest to Newest</option>
+			<option value="created-descending">Newest to Oldest</option>
+		</select>
+	</div>
+
+	<div class="show_products">
+		<label>Show</label>
+
+		<select id="show_products_select" class="form-control">
+			<option value="6">6</option>
+			<option value="9">9</option>
+			<option value="15">15</option>
+			<option value="all">all</option>
+		</select>
+	</div>
+</div>
+
+<div id="product_listing_preloader">
+	<div class="global_loader"></div>
+</div>
+
+<div id="collection_sorted">
+	<!-- products listing -->
+	<div class="product_listing_main row">
+		{% for product in collection.products %}
+			{% include 'product-listing-item' with 'image_size' %}
+		{% else %}
+			<div class="col-sm-12">
+				<p class="alert alert-info">There are no products in this view.</p>
+			</div>
+		{% endfor %}
+	</div>
+
+	<!-- pagination -->
+	<div class="product_listing_controls">
+		{% assign products_past = paginate.current_page | minus:1 %}
+		{% assign products_all = paginate.pages | times:paginate.page_size %}
+
+		<p class="products_count">
+			{% if collection.products_count == 1 %}1 product{% else %}{% if paginate.current_page == 1 %}1{% elsif paginate.current_page > 1 and  paginate.current_page != paginate.pages %}{{ paginate.page_size | times:products_past | plus:1 }}{% else %}{{ paginate.page_size | times:products_past | plus:1 }}{% endif %}&nbsp;–&nbsp;{% if paginate.page_size > collection.products_count %}{{ collection.products_count }}{% else %}{% if paginate.current_page == 1 %}{{ paginate.page_size }}{% elsif paginate.current_page > 1 and  paginate.current_page != paginate.pages %}{{ paginate.current_page | times:paginate.page_size }}{% else %}{% if products_all > collection.products_count %}{{ collection.products_count }}{% else %}{{ products_all }}{% endif %}{% endif %}{% endif %}&nbsp;products of {{ collection.products_count }}{% endif %}
+		</p>
+
+		{% if paginate.pages > 1 %}
+		<div id="pagination">
+			{{ paginate | default_pagination }}
+		</div>
+		{% endif %}
+	</div>
+</div>

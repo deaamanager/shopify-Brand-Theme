@@ -1,0 +1,13 @@
+<div class="sidebar_widget sidebar_widget__types">
+    <h3 class="widget_header">Product Types</h3>
+
+    <div class="widget_content">
+        <ul class="list_links">
+            {% for product_type in shop.types %}
+                {% capture tmp_type %}{{ product_type | remove:' ' | remove:'&amp;' | remove:'&' }}{% endcapture %}
+                {% capture tmp_title %}{{ page_title | remove:' ' | remove:'&amp;' | remove:'&' }}{% endcapture %}
+                <li class="{{ product_type }}{% if tmp_type == tmp_title %} active{% endif %}">{{ product_type | link_to_type }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,199 @@
+{% layout settings.customer_layout %}
+
+<h2 class="page_heading">Login or create an account</h2>
+
+<div id="account_login">
+	<div class="account_wrapper">
+		<div class="account_left">
+			<div class="account_section">
+				<h4>New here?</h4>
+
+				<p class="note">Registration is free and easy!</p>
+
+				<ul>
+					<li>Faster checkout</li>
+					<li>Save multiple shipping addresses</li>
+					<li>View and track orders and more</li>
+				</ul>
+
+				<a id="account_register__link" class="btn" href="#">Create an account</a>
+			</div>
+		</div>
+
+		<div class="account_right">
+			<div class="account_section">
+				{% form 'customer_login' %}
+					<h4>Already registered?</h4>
+
+					{{ form.errors | default_errors | replace: 'errors', 'alert alert-danger' }}
+
+					<div class="form-group">
+						<label for="customer_email" class="control-label">Email Address</label>
+						<input type="email" value="" name="customer[email]" id="customer_email" class="form-control" size="30" />
+					</div>
+					
+					{% if form.password_needed %}
+						<div class="form-group">
+							<label for="customer_password" class="control-label">Password</label>
+							<input type="password" value="" name="customer[password]" id="customer_password" class="form-control" size="16" />
+						</div>
+					{% endif %}
+					  
+					<div class="form-group">
+						<input class="btn" type="submit" value="Sign In" />
+						<a id="account_reset__link" href="#">Forgot your password?</a>
+					</div>
+				{% endform %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="account_register" class="account_section">
+	<h4>Create an account <span><a class="link_close account_register__cancel" href="#">Close</a></span></h4>
+
+	<div class="form-horizontal">
+		{% form 'create_customer' %}
+			{{ form.errors | default_errors | replace: 'errors', 'alert alert-danger' }}
+
+			<div class="clearfix form-group">
+				<label for="first_name" class="login control-label col-sm-4">First name</label>
+				<div class="col-sm-4"><input type="text" value="" name="customer[first_name]" id="first_name" class="form-control" size="30" /></div>
+			</div>
+
+			<div class="clearfix form-group">
+				<label for="last_name" class="login control-label col-sm-4">Last name</label>
+				<div class="col-sm-4"><input type="text" value="" name="customer[last_name]" id="last_name" class="form-control" size="30" /></div>
+			</div>
+
+			<div class="clearfix form-group">
+				<label for="email" class="login control-label col-sm-4">Email address</label>
+				<div class="col-sm-4"><input type="email" value="" name="customer[email]" id="email" class="form-control" size="30" /></div>
+			</div>
+
+			<div class="clearfix form-group">
+				<label for="password" class="login control-label col-sm-4">Password</label>
+				<div class="col-sm-4"><input type="password" value="" name="customer[password]" id="password" class="form-control password" size="30" /></div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-4">
+					<button class="btn btn-primary" type="submit">Register</button>
+					<a class="account_register__cancel" href="#">Cancel</a>
+				</div>
+			</div>
+		{% endform %}
+	</div>
+</div>
+
+<div id="account_reset" class="account_section">
+	<h4>Reset Password <span><a class="link_close account_reset__cancel" href="#">Close</a></span></h4>
+	<p class="note">We will send you an email to reset your password.</p>
+	{% form 'recover_customer_password' %}
+		<div class="clearfix form-horizontal">
+			{% if form.posted_successfully? %}
+				<p class="alert alert-success">Instructions were sent to your email. Follow them to recover your password.</p>
+			{% else %}
+				{{ form.errors | default_errors | replace: 'errors', 'alert alert-danger' }}
+			{% endif %}
+
+			<div class="form-group">
+				<label for="email" class="large col-sm-4">Email</label>
+				<div class="col-sm-4">
+					<input class="form-control" type="email" value="" size="30" name="email" id="recover-email" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-4 col-sm-offset-4">
+					<button class="btn" type="submit">Submit</button>
+					<a class="account_reset__cancel" href="#">Cancel</a>
+				</div>
+			</div>
+		</div>
+	{% endform %}
+</div>
+
+{% if shop.checkout.guest_login %}
+<div id="account_guest" class="account_section">
+	<h4>Guest login</h4>
+
+	<p class="note">Guest login allows you to place orders without registration.</p>
+
+	{% form 'guest_login' %}
+		<button class="btn" type="submit">Continue as Guest</button>
+	{% endform %}
+</div>
+{% endif %}
+
+<script>
+jQuery(function($){
+	$(document).ready(function() {
+
+		if ( $('#account_register').find('.alert').length ) {
+			$('#account_login, #account_reset').hide();
+		}
+		else if ( $('#account_reset').find('.alert').length ) {
+			$('#account_reset').show();
+			$('#account_register').hide();
+		}
+		else {
+			$('#account_register, #account_reset').hide();
+		};
+
+
+
+		$('#account_reset__link').on('click', function(e) {
+			e.preventDefault();
+
+			$('#account_reset').slideDown();
+		});
+
+		$('.account_reset__cancel').on('click', function(e) {
+			e.preventDefault();
+
+			$('#account_reset').slideUp();
+		});
+
+
+
+		$('#account_register__link').on('click', function(e) {
+			e.preventDefault();
+
+			if ( $('#account_reset:visible') ) {
+				$('#account_reset').slideUp();
+			};
+
+			$('#account_login').delay(0).slideUp();
+			$('#account_register').delay(0).slideDown();
+		});
+
+		$('.account_register__cancel').on('click', function(e) {
+			e.preventDefault();
+
+			$('#account_register').slideUp();
+			$('#account_login').slideDown();
+		});
+
+
+
+		if (window.location.hash == '#recover') { 
+			$('#account_reset').show();
+		};
+
+		$('#account_register a[href*="recover"]').on('click', function() {
+			$('#account_register').slideUp();
+			$('#account_login').slideDown();
+			$('#account_reset').slideDown();
+		});
+
+
+
+		$('#account_login form, #account_register form, #account_reset form').formValidation();
+
+
+
+	});
+});
+
+</script>

@@ -1,0 +1,92 @@
+<div class="sidebar_widget sidebar_blog sidebar_widget__search">
+	<form action="/search" method="get">
+		<input type="hidden" name="type" value="article" />
+		<input id="blog-search-field" name="q" type="text" placeholder="Search blog" class="hint" />
+		<button id="blog-search-submit" type="submit"><i class="fa fa-search"></i></button>
+	</form>
+</div>
+
+<div class="sidebar_widget sidebar_blog sidebar_widget__articles">
+	<h3 class="widget_header">Recent articles</h3>
+
+	<div class="widget_content">
+		<ul class="list_articles">
+			{% for article in blog.articles limit:3 %}
+			<li>
+				{% if article.content contains "img" %}
+				    {% assign articleImg = article.content | split: 'img' %}
+				    {% assign articleImg = article.content | split: 'src="' %}
+				    {% assign articleImg = articleImg[1] | split: '"' | first | replace: '//cdn', 'http://cdn' | replace: 'http:http://', 'http://' | remove: 'https:' %}
+				    {% assign articleImgAlt = article.content | split: 'alt="' %}
+				    {% assign articleImgAlt = articleImgAlt[1] | split: '"' | first %}
+				    {{ articleImg | img_tag: articleImgAlt, 'item_img' }}
+				{% endif %}
+
+				<div class="article_content {% if article.content contains 'img' %}article_content__img{% endif %}">
+					<time class="article_date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%d %B %Y' }}</time>
+
+					<h4 class="article_title">
+						<a href="{{ article.url }}">{{ article.title | truncatewords:7 }}</a>
+					</h4>
+
+					{% if blog.comments_enabled? %}
+						<p class="article_comments">{{ article.comments_count }}</p>
+					{% endif %}
+
+					<div class="clearfix"></div>
+				</div>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+
+<div class="sidebar_widget sidebar_blog sidebar_widget__tags">
+	<h3 class="widget_header">Tags</h3>
+
+	<div class="widget_content">
+		{% if blog.all_tags.size == 0 %}
+			<p class="alert alert-warning">There is no tags in this blog</p>
+		{% else %}
+			<div class="blog_tags">
+				{% for tag in blog.all_tags %}
+					<a{% if current_tags contains tag %} class="tag_active"{% endif %} href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+				{% endfor %}
+			</div>
+		{% endif %}
+	</div>
+</div>
+
+{% if blog.comments_enabled? %}
+<div class="sidebar_widget sidebar_blog sidebar_widget__comments">
+	<h3 class="widget_header">Comments</h3>
+
+	<div class="widget_content">
+		<ul class="list_comments">
+			{% if blog.comments_count == 0 %}
+				<li>
+					<p class="alert alert-warning">There are no comments yet</p>
+				</li>
+			{% else %}
+				{% for comment in blog.comments limit:3 %}
+					<li>
+						<a href="{{ comment.url }}">
+							<i class="fa fa-comment-o item_icon"></i>
+							<span class="item_content">{{ comment.content | strip_html | truncatewords:20 }}</span>
+							<span class="clearfix"></span>
+							<span class="item_info">
+								<span class="item_author">{{ comment.author }}</span>
+								<time datetime="{{ comment.created_at | date: '%Y-%m-%d' }}">
+									<span class="item_date">{{ comment.created_at | date: '%d %B %Y' }}</span>
+									<span class="item_time">{{ comment.created_at | date: '%I:%M %p' }}</span>
+								</time>
+							</span>
+						</a>
+					</li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+	</div>
+</div>
+{% endif %}
+

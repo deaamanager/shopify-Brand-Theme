@@ -1,0 +1,196 @@
+{% comment %}
+Re-use the 'rte' class wherever you output content that was added by a merchant using
+the Rich Text Editor ( 'rte' stands for rich text editor ).
+Style all HTML elements in that content the same way across the board.
+Use the 'rte' class in your CSS to help maintain that consistency.
+Example: the h2 element should have the same size and color in:
+- product descriptions
+- collection descriptions
+- 'page' pages' content
+- blog post
+{% endcomment %}
+
+{% if settings.homepage_products_toggle %}
+    <div class="featured_products">
+        {% comment %}  
+            <div class="rte">{{ page.content }}</div>
+        {% endcomment %}
+
+        <h2 class="page_heading"><span>Featured Products</span></h2>
+
+        {% if shop.products_count < 1 %}
+            <div class="hero-unit">
+                <p class="text-center">This section displays products from homepage collection. Unfortunately you don't have any products in your store yet. </p>
+
+                <p class="text-center">
+                    <a class="btn btn-primary" href="/admin/products/new">Would you like to add some?</a> 
+                </p>
+            </div>
+        {% endif %}
+
+        {% assign productsNum = collections[settings.homepage_products].products_count | plus: 0 %}
+        {% assign productsRows = settings.homepage_carousel_rows | plus: 0 %}
+        {% assign productsDir = settings.homepage_carousel_direction | plus: 0 %}
+        {% assign productsCount = settings.homepage_products_count | plus: 0 %}
+        {% assign productsCountHalf = productsCount | divided_by: 2 %}
+
+        {% if productsNum >= 4 %}
+            {% if productsCount <= productsNum %}
+                {% if productsRows == 1 %}
+                    <div id="homepage_carousel__1" class="product_listing_main homepage_carousel row">
+                        {% for product in collections[settings.homepage_products].products limit:productsCount %}
+                            {% include 'product-listing-item' %}   
+                        {% endfor %}
+                    </div>
+
+                    <script>
+                    jQuery(document).ready(function($) {
+                        if( device.desktop() || device.tablet() ) {
+                            $('#homepage_carousel__1').bxSlider({
+                                infiniteLoop: true,
+                                hideControlOnEnd: true,
+                                minSlides: 4,
+                                maxSlides: 4,
+                                moveSlides: 1,
+                                slideMargin: 0,
+                                pager: true,
+                                prevText: '',
+                                nextText: '',
+                                controls: false,
+                            });
+                        };
+                    });
+                    </script>
+
+                {% elsif productsRows == 2 and productsCount == 4 %}
+
+                    <div id="homepage_carousel__1" class="product_listing_main homepage_carousel row">
+                        {% for product in collections[settings.homepage_products].products limit:productsCount %}
+                            {% include 'product-listing-item' %}   
+                        {% endfor %}
+                    </div>
+
+                    <script>
+                    jQuery(document).ready(function($) {
+                        if( device.desktop() || device.tablet() ) {
+                            $('#homepage_carousel__1').bxSlider({
+                                infiniteLoop: true,
+                                hideControlOnEnd: true,
+                                minSlides: 4,
+                                maxSlides: 4,
+                                moveSlides: 1,
+                                slideMargin: 0,
+                                pager: false,
+                                prevText: '',
+                                nextText: '',
+                            });
+                        };
+                    });
+                    </script>
+
+                {% elsif productsRows == 2 and productsCount > 4 %}
+
+                    <div id="homepage_carousel__1" class="product_listing_main homepage_carousel row">
+                        {% for product in collections[settings.homepage_products].products limit:productsCountHalf %}
+                            {% include 'product-listing-item' %}   
+                        {% endfor %}
+                    </div>
+
+                    <div id="homepage_carousel__2" class="product_listing_main homepage_carousel row">
+                        {% for product in collections[settings.homepage_products].products offset:productsCountHalf limit:productsCountHalf %}
+                            {% include 'product-listing-item' %}   
+                        {% endfor %}
+                    </div>
+
+                    <script>
+                    jQuery(document).ready(function($) {
+                        if( device.desktop() || device.tablet() ) {
+                            $('#homepage_carousel__1').bxSlider({
+                                infiniteLoop: true,
+                                hideControlOnEnd: true,
+                                minSlides: 4,
+                                maxSlides: 4,
+                                moveSlides: 1,
+                                slideMargin: 0,
+                                pager: false,
+                                prevText: '',
+                                nextText: '',
+                            });
+
+                            $('#homepage_carousel__2').bxSlider({
+                                infiniteLoop: true,
+                                hideControlOnEnd: true,
+                                minSlides: 4,
+                                maxSlides: 4,
+                                moveSlides: 1,
+                                slideMargin: 0,
+                                pager: false,
+                                prevText: '',
+                                nextText: '',
+                            });
+
+                            $('#homepage_carousel__2').parent().parent().find('.bx-controls').hide();
+
+                            var carousel_1_prevBtn = $('#homepage_carousel__1').parent().parent().find('.bx-controls .bx-prev');
+                            var carousel_1_nextBtn = $('#homepage_carousel__1').parent().parent().find('.bx-controls .bx-next');
+
+                            var carousel_2_prevBtn = $('#homepage_carousel__2').parent().parent().find('.bx-controls .bx-prev');
+                            var carousel_2_nextBtn = $('#homepage_carousel__2').parent().parent().find('.bx-controls .bx-next');
+
+                            {% case productsDir %}
+                                {% when 1 %}
+                                    carousel_1_prevBtn.on('click', function(){
+                                        carousel_2_prevBtn.trigger( "click" );
+                                    });
+
+                                    carousel_1_nextBtn.on('click', function(){
+                                        carousel_2_nextBtn.trigger( "click" );
+                                    });
+                                {% when 2 %}
+                                    carousel_1_prevBtn.on('click', function(){
+                                        carousel_2_nextBtn.trigger( "click" );
+                                    });
+
+                                    carousel_1_nextBtn.on('click', function(){
+                                        carousel_2_prevBtn.trigger( "click" );
+                                    });
+                            {% endcase %}
+                        };
+                    });
+                    </script>
+                {% endif %}
+            {% else %}
+                <div id="homepage_carousel__1" class="product_listing_main homepage_carousel row">
+                    {% for product in collections[settings.homepage_products].products limit:productsCount %}
+                        {% include 'product-listing-item' %}   
+                    {% endfor %}
+                </div>
+
+                <script>
+                jQuery(document).ready(function($) {
+                    if( device.desktop() || device.tablet() ) {
+                        $('#homepage_carousel__1').bxSlider({
+                            infiniteLoop: true,
+                            hideControlOnEnd: true,
+                            minSlides: 4,
+                            maxSlides: 4,
+                            moveSlides: 1,
+                            slideMargin: 0,
+                            pager: false,
+                            prevText: '',
+                            nextText: '',
+                        });
+                    };
+                });
+                </script>
+            {% endif %}
+
+        {% else %}
+            <div class="product_listing_main row">
+                {% for product in collections[settings.homepage_products].products limit:productsCount %}
+                    {% include 'product-listing-item' %}   
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endif %}

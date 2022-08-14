@@ -1,0 +1,50 @@
+<!-- See this: http://wiki.shopify.com/Related_Products -->
+
+{% if collection and collection.products_count > 1 %}
+    {% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+
+    {% assign found_a_collection = false %}
+        {% for c in product.collections %}
+            {% if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' and c.all_products_count > 1 %}
+                {% assign found_a_collection = true %}
+                {% assign collection = c %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <div class="widget_related_products">
+    <h3>Related products</h3>
+
+    <div class="widget_content">
+        <ul class="row product_listing_main product_listing_related">
+            {% assign current_product_found = false %}
+            {% for prod in collection.products limit:5 %}
+                {% if prod.title == product.title %}
+                    {% assign current_product_found = true %}
+                {% else %}
+                    {% unless current_product_found == false and forloop.last %}
+                        <li class="col-sm-3 product product__{% cycle 'counter': '1','2','3','4' %}">
+                            <div class="product_wrapper">
+                                <div class="clearfix">
+                                    <div class="product_img">
+                                        <a href="{{ prod.url | within: collection }}" title="{{ prod.title | escape }}">
+                                            <span class="product_img_wr">
+                                                <img src="{{ prod.featured_image | product_img_url: 'medium' }}" alt="{{ prod.title | escape }}" />
+                                            </span>
+                                        </a>
+                                    </div>
+
+                                    <div class="product_info">
+                                        <div class="product_name"><a href="{{ prod.url }}" title="{{ prod.title | escape }}">{{ prod.title | truncate:50 }}</a></div>
+                                        <div class="product_price"><span class="money">{{ prod.price | money }}</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {% endunless %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}

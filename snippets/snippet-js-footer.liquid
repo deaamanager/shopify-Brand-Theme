@@ -1,0 +1,265 @@
+{% if settings.show_multiple_currencies %}
+<script src="//cdn.shopify.com/s/javascripts/currencies.js"></script>
+{% endif %}
+
+<script>
+	{% if settings.show_multiple_currencies %}
+		// CURRENCY TOOLS - CAROLINE SCHNAPP (mllegeorgesand@gmail.com)
+		{% raw %}
+			if(typeof Currency==="undefined"){var Currency={}}Currency.cookie={configuration:{expires:365,path:"/",domain:window.location.hostname},name:"currency",write:function(a){jQuery.cookie(this.name,a,this.configuration)},read:function(){return jQuery.cookie(this.name)},destroy:function(){jQuery.cookie(this.name,null,this.configuration)}};Currency.money_with_currency_format={USD:"${{amount}} USD",EUR:"&euro;{{amount}} EUR",GBP:"&pound;{{amount}} GBP",CAD:"${{amount}} CAD",ARS:"${{amount_with_comma_separator}} ARS",AUD:"${{amount}} AUD",BBD:"${{amount}} Bds",BDT:"Tk {{amount}} BDT",BSD:"BS${{amount}} BSD",BHD:"{{amount}}0 BHD",BRL:"R$ {{amount_with_comma_separator}} BRL",BOB:"Bs{{amount_with_comma_separator}} BOB",BND:"${{amount}} BND",BGN:"{{amount}} лв BGN",MMK:"K{{amount}} MMK",KYD:"${{amount}} KYD",CLP:"${{amount_no_decimals}} CLP",CNY:"&#165;{{amount}} CNY",COP:"${{amount_with_comma_separator}} COP",CRC:"&#8353; {{amount_with_comma_separator}} CRC",HRK:"{{amount_with_comma_separator}} kn HRK",CZK:"{{amount_with_comma_separator}} K&#269;",DKK:"kr.{{amount_with_comma_separator}}",DOP:"RD$ {{amount_with_comma_separator}}",XCD:"EC${{amount}}",EGP:"LE {{amount}} EGP",XPF:"{{amount_no_decimals_with_space_separator}}} XPF",FJD:"FJ${{amount}}",GHS:"GH&#8373;{{amount}}",GTQ:"{{amount}} GTQ",GYD:"${{amount}} GYD",GEL:"{{amount}} GEL",HKD:"HK${{amount}}",HUF:"{{amount_no_decimals_with_comma_separator}} Ft",ISK:"{{amount_no_decimals}} kr ISK",INR:"Rs.{{amount}}",IDR:"Rp {{amount_with_comma_separator}}",NIS:"{{amount}} NIS",JMD:"${{amount}} JMD",JPY:"&#165;{{amount_no_decimals}} JPY",JOD:"{{amount}}0 JOD",KZT:"{{amount}} KZT",KES:"KSh{{amount}}",KWD:"{{amount}}0 KWD",LVL:"Ls {{amount}} LVL",LTL:"{{amount}} Lt",MXN:"$ {{amount}} MXN",MYR:"RM{{amount}} MYR",MUR:"Rs {{amount}} MUR",MDL:"{{amount}} MDL",MAD:"Dh {{amount}} MAD",MNT:"{{amount_no_decimals}} MNT",MZN:"Mt {{amount}} MZN",ANG:"{{amount}} NA&fnof;",NZD:"${{amount}} NZD",NGN:"&#8358;{{amount}} NGN",NOK:"kr {{amount_with_comma_separator}} NOK",OMR:"{{amount_with_comma_separator}} OMR",PKR:"Rs.{{amount}} PKR",PYG:"Gs. {{amount_no_decimals_with_comma_separator}} PYG",PEN:"S/. {{amount}} PEN",PHP:"&#8369;{{amount}} PHP",PLN:"{{amount_with_comma_separator}} zl PLN",QAR:"QAR {{amount_with_comma_separator}}",RON:"{{amount_with_comma_separator}} lei RON",RUB:"&#1088;&#1091;&#1073;{{amount_with_comma_separator}} RUB",SAR:"{{amount}} SAR",RSD:"{{amount}} RSD",SCR:"Rs {{amount}} SCR",SGD:"${{amount}} SGD",SYP:"S&pound;{{amount}} SYP",ZAR:"R {{amount}} ZAR",KRW:"&#8361;{{amount_no_decimals}} KRW",LKR:"Rs {{amount}} LKR",SEK:"{{amount_no_decimals}} kr SEK",CHF:"SFr. {{amount}} CHF",TWD:"${{amount}} TWD",THB:"{{amount}} &#xe3f; THB",TZS:"{{amount}} TZS",TTD:"${{amount}} TTD",TRY:"{{amount}}TL",UAH:"₴{{amount}} UAH",AED:"Dhs. {{amount}} AED",UYU:"${{amount_with_comma_separator}} UYU",VEB:"Bs. {{amount_with_comma_separator}} VEB",VND:"{{amount_no_decimals_with_comma_separator}} VND",ZMK:"ZMK{{amount_no_decimals_with_comma_separator}}"};Currency.money_format={USD:"${{amount}}",EUR:"&euro;{{amount}}",GBP:"&pound;{{amount}}",CAD:"${{amount}}",ARS:"${{amount_with_comma_separator}}",AUD:"${{amount}}",BBD:"${{amount}}",BDT:"Tk {{amount}}",BSD:"BS${{amount}}",BHD:"{{amount}}0 BHD",BRL:"R$ {{amount_with_comma_separator}}",BOB:"Bs{{amount_with_comma_separator}}",BND:"${{amount}}",BGN:"{{amount}} лв",MMK:"K{{amount}}",KYD:"${{amount}}",CLP:"${{amount_no_decimals}}",CNY:"&#165;{{amount}}",COP:"${{amount_with_comma_separator}}",CRC:"&#8353; {{amount_with_comma_separator}}",HRK:"{{amount_with_comma_separator}} kn",CZK:"{{amount_with_comma_separator}} K&#269;",DKK:"{{amount_with_comma_separator}}",DOP:"RD$ {{amount_with_comma_separator}}",XCD:"${{amount}}",EGP:"LE {{amount}}",XPF:"{{amount_no_decimals_with_space_separator}}} XPF",FJD:"${{amount}}",GHS:"GH&#8373;{{amount}}",GTQ:"{{amount}}",GYD:"${{amount}}",GEL:"{{amount}} GEL",HKD:"${{amount}}",HUF:"{{amount_no_decimals_with_comma_separator}}",ISK:"{{amount_no_decimals}} kr",INR:"{{amount}}",IDR:"{{amount_with_comma_separator}}",NIS:"{{amount}} NIS",JMD:"${{amount}}",JPY:"&#165;{{amount_no_decimals}}",JOD:"{{amount}}0 JD",KZT:"{{amount}} KZT",KES:"KSh{{amount}}",KWD:"{{amount}}0 KD",LVL:"Ls {{amount}}",LTL:"{{amount}} Lt",MXN:"$ {{amount}}",MYR:"RM{{amount}} MYR",MUR:"Rs {{amount}}",MDL:"{{amount}} MDL",MAD:"{{amount}} dh",MNT:"{{amount_no_decimals}} &#8366",MZN:"{{amount}} Mt",ANG:"&fnof;{{amount}}",NZD:"${{amount}}",NGN:"&#8358;{{amount}}",NOK:"kr {{amount_with_comma_separator}}",OMR:"{{amount_with_comma_separator}} OMR",PKR:"Rs.{{amount}}",PYG:"Gs. {{amount_no_decimals_with_comma_separator}}",PEN:"S/. {{amount}}",PHP:"&#8369;{{amount}}",PLN:"{{amount_with_comma_separator}} zl",QAR:"QAR {{amount_with_comma_separator}}",RON:"{{amount_with_comma_separator}} lei",RUB:"&#1088;&#1091;&#1073;{{amount_with_comma_separator}}",SAR:"{{amount}} SR",RSD:"{{amount}} RSD",SCR:"Rs {{amount}}",SGD:"${{amount}}",SYP:"S&pound;{{amount}}",ZAR:"R {{amount}}",KRW:"&#8361;{{amount_no_decimals}}",LKR:"Rs {{amount}}",SEK:"{{amount_no_decimals}} kr",CHF:"SFr. {{amount}}",TWD:"${{amount}}",THB:"{{amount}} &#xe3f;",TZS:"{{amount}} TZS",TTD:"${{amount}}",TRY:"{{amount}}TL",UAH:"₴{{amount}}",AED:"Dhs. {{amount}}",UYU:"${{amount_with_comma_separator}}",VEB:"Bs. {{amount_with_comma_separator}}",VND:"{{amount_no_decimals_with_comma_separator}}₫",ZMK:"K{{amount_no_decimals_with_comma_separator}}"};Currency.formatMoney=function(b,f){if(typeof b=="string"){b=b.replace(".","")}var e="";var d=/\{\{\s*(\w+)\s*\}\}/;var a=(f||this.money_format);function c(g){return g.replace(/(\d+)(\d{3}[\.,]?)/,"$1,$2")}switch(a.match(d)[1]){case"amount":e=c(floatToString(b/100,2));break;case"amount_no_decimals":e=c(floatToString(b/100,0));break;case"amount_with_comma_separator":e=floatToString(b/100,2).replace(/\./,",");break;case"amount_no_decimals_with_comma_separator":e=c(floatToString(b/100,0)).replace(/\./,",");break}return a.replace(d,e)};function floatToString(c,a){var b=c.toFixed(a).toString();if(b.match(/^\.\d+/)){return"0"+b}else{return b}}Currency.currentCurrency="";Currency.format="money_with_currency_format";Currency.convertAll=function(c,b,a,d){jQuery(a||"span.money").each(function(){if(jQuery(this).attr("data-currency")===b){return}if(jQuery(this).attr("data-currency-"+b)){jQuery(this).html(jQuery(this).attr("data-currency-"+b))}else{var e=0;var f=Currency[d||Currency.format][c]||"{{amount}}";var g=Currency[d||Currency.format][b]||"{{amount}}";if(f.indexOf("amount_no_decimals")!==-1){e=Currency.convert(parseInt(jQuery(this).html().replace(/[^0-9]/g,""),10)*100,c,b)}else{e=Currency.convert(parseInt(jQuery(this).html().replace(/[^0-9]/g,""),10),c,b)}var h=Currency.formatMoney(e,g);jQuery(this).html(h);jQuery(this).attr("data-currency-"+b,h)}jQuery(this).attr("data-currency",b)});this.currentCurrency=b;this.cookie.write(b)};
+		{% endraw %}
+	{% endif %}
+
+	function currencyToggle(target) {
+		{% if settings.show_multiple_currencies %}
+			{% if settings.currency_format %}
+			Currency.format = '{{ settings.currency_format }}';
+			{% endif %}
+
+			var shopCurrency="{{ shop.currency }}";Currency.money_with_currency_format[shopCurrency]={{ shop.money_with_currency_format | strip_html | json }},Currency.money_format[shopCurrency]={{ shop.money_format | strip_html | json }};var defaultCurrency="{{ settings.default_currency }}",cookieCurrency=Currency.cookie.read();jQuery(target).each(function(){jQuery(this).attr("data-currency-{{ shop.currency }}",jQuery(this).html())}),null==cookieCurrency?shopCurrency!==defaultCurrency?Currency.convertAll(shopCurrency,defaultCurrency):Currency.currentCurrency=defaultCurrency:jQuery("[name=currencies]").size()&&0===jQuery("[name=currencies] option[value="+cookieCurrency+"]").size()?(Currency.currentCurrency=shopCurrency,Currency.cookie.write(shopCurrency)):cookieCurrency===shopCurrency?Currency.currentCurrency=shopCurrency:Currency.convertAll(shopCurrency,cookieCurrency),jQuery("[name=currencies]").val(Currency.currentCurrency).change(function(){var r=jQuery(this).val();Currency.convertAll(Currency.currentCurrency,r),jQuery(".selected-currency").text(Currency.currentCurrency)});var original_selectCallback=window.selectCallback,selectCallback=function(r,e){original_selectCallback(r,e),Currency.convertAll(shopCurrency,jQuery("[name=currencies]").val()),jQuery(".selected-currency").text(Currency.currentCurrency)};jQuery(".selected-currency").text(Currency.currentCurrency);
+		{% endif %}
+	};
+
+	currencyToggle('span.money');
+</script>
+
+{% case template %}
+<!-- HOMEPAGE SCRIPTS -->
+	{% when 'index' %}
+		{{ 'jquery.nivoslider.min.js' | asset_url | script_tag }}
+		{{ 'jquery.bxslider.min.js' | asset_url | script_tag }}
+		{% if settings.custom_bottom_parallax_toggle %}
+		{{ 'jquery.parallax.js' | asset_url | script_tag }}
+		{% endif %}
+
+		<script>
+			jQuery(document).ready(function($) {
+			    // NIVOSLIDER
+			    $('.nivoSlider').nivoSlider({
+			        effect:'fade',
+			        animSpeed:500,
+			        pauseTime:7000,
+			        startSlide:0,
+			        pauseOnHover:true,
+			        directionNav:false,
+			        directionNavHide:false,
+			        controlNav:true
+			    });
+
+
+				{% if settings.custom_bottom_parallax_toggle %}
+
+				var parallaxVisible = false;
+
+				function parallaxScroll(){
+					if ($.browser.msie) {
+						$('#custom_bottom').parallax("50%", -0.1);
+					}
+					else {
+						$('#custom_bottom').parallax("50%", -0.4);
+					}
+				};
+
+				function resetToDefaults() {
+					$('#custom_bottom').parallax("50%", 0);
+				};
+
+
+				function showParallax() {
+					parallaxScroll(); 
+					$(window).on('scroll', parallaxScroll);
+					parallaxVisible = true;
+				};
+
+				function hideParallax() {
+					$(window).off('scroll', parallaxScroll);
+					parallaxVisible = false;
+					resetToDefaults();
+				};
+
+				$(window).on("load resize", function(){
+					if ($(this).width() >= 991 && !parallaxVisible) {
+						showParallax();
+					}
+
+					if ($(this).width() < 991 && parallaxVisible) {
+						hideParallax();
+					}
+				});
+
+				{% endif %}
+
+			});
+		</script>
+
+<!-- COLLECTION PAGE SCRIPTS -->
+	{% when 'collection' %}
+		{{ 'jquery.collection-sort.js' | asset_url | script_tag }}
+		{{ 'jquery.bxslider.min.js' | asset_url | script_tag }}
+
+<!-- PRODUCT PAGE SCRIPTS -->
+	{% when 'product' %}
+		{{ 'jquery.bxslider.min.js' | asset_url | script_tag }}
+		{{ 'jquery.elevatezoom.js' | asset_url | script_tag }}
+
+		<script>
+			jQuery(function(o){o(window).load(function(){o("#elevatezoom_big").elevateZoom({gallery:"elevatezoom_gallery",zoomActivation:"hover",zoomType:"window",scrollZoom:!0,zoomWindowFadeIn:500,zoomLensFadeIn:500,imageCrossfade:!0,zoomWindowWidth:370,zoomWindowHeight:370,zoomWindowOffetx:15,zoomWindowOffety:0,borderSize:1,borderColour:"{{ settings.border_color }}"}),o(document).on("click",".elevatezoom_big_clicker",function(){o(".zoomLens").trigger("click")}),o("#elevatezoom_big").bind("click",function(){return o.fancybox(o("#elevatezoom_big").data("elevateZoom").getGalleryList()),!1})}),o("#elevatezoom_gallery").bxSlider({infiniteLoop:!0,minSlides:1,maxSlides:4,moveSlides:1,slideWidth:101,pager:!1,prevText:"",nextText:""})});
+		</script>
+
+		{% if product.available %}
+			{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+
+			<script>
+				var selectCallback = function(variant, selector) {
+					if ( variant && variant.available ) {
+
+						jQuery('#add-to-cart').removeAttr('disabled').removeClass('disabled');
+
+
+						// VARIANT PRICES
+						if ( variant.price < variant.compare_at_price ) {
+							jQuery('#product_price .price').html('<span class="money">' + Shopify.formatMoney(variant.price, "{{ shop.money_format }}") + '</span><span class="money compare-at-price money_sale">' + Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}") + '</span><span class="money_sale_percent">– ' + parseInt( 100 - ( variant.price*100 )/variant.compare_at_price ) + '%</span>');
+						}
+						else {
+							jQuery('#product_price .price').html('<span class="money">' + Shopify.formatMoney(variant.price, "{{ shop.money_format }}") + '</span>');
+						};
+
+
+						// PRODUCT QUANTITY
+						if ( variant.inventory_management != null ) {
+							jQuery('#product_quantity span').removeClass('notify_danger').addClass('notify_success').html( '<b>' + variant.inventory_quantity + '</b> item(s)' );
+						}
+						else {
+							jQuery('#product_quantity span').removeClass('notify_danger').addClass('notify_success').html( 'Available' );
+						};
+
+
+						// SKU
+						if ( variant.sku && variant.sku.length ) {
+							jQuery('#product_sku').html( variant.sku );
+						}
+						else {
+							jQuery('#product_sku').html( '—' );
+						};
+
+
+						// BARCODE
+						if ( ( variant.barcode != null ) && ( variant.barcode.length > 0 ) ) {
+							jQuery('#product_barcode').html( variant.barcode );
+						}
+						else {
+							jQuery('#product_barcode').html( '—' );
+						};
+
+
+						// WEIGHT
+						if ( variant.requires_shipping == true ) {
+							var variantWeights = {% raw %}{{% endraw %}{% for variant in product.variants %}{% if forloop.last %}{{ variant.id }}:"{{ variant.weight | weight_with_unit: variant.weight_unit }}"{% else %}{{ variant.id }}:"{{ variant.weight | weight_with_unit: variant.weight_unit }}",{% endif %}{% endfor %}{% raw %}}{% endraw %};
+
+							for ( var i in variantWeights ) {
+								var i = parseInt(i);
+
+								if ( i == variant.id ) {
+									jQuery('#product_weight').html( variantWeights[i] );
+								};
+							};
+						}
+						else {
+							jQuery('#product_weight').parent().remove();
+						};
+					}
+					else {
+						jQuery('#add-to-cart').addClass('disabled').attr('disabled', 'disabled'); // set add-to-cart button to unavailable class and disable button
+
+						var message = variant ? "Sold Out" : "Unavailable";
+
+						jQuery('#product_quantity span').removeClass('notify_success').addClass('notify_danger').html( message );
+					};
+
+					if (variant && variant.featured_image) {
+						var originalImage = $("#elevatezoom_big");
+						var newImage = variant.featured_image;
+						var element = originalImage[0];
+
+						Shopify.Image.switchImage(newImage, element, function (newImageSizedSrc, newImage, element) {
+							jQuery('#elevatezoom_big').attr('src', newImageSizedSrc).attr('data-zoom-image', newImageSizedSrc);
+
+							jQuery("#elevatezoom_gallery a").each(function(){
+								if ( jQuery(this).attr('data-zoom-image').replace(/\?v=.*/ , '') == newImageSizedSrc.replace(/\?v=.*/ , '') ) {
+									jQuery(this).trigger('click');
+								};
+							});
+						});
+					};
+
+					currencyToggle('#product_price .price .money');
+				};
+
+				jQuery(document).ready(function($){
+					new Shopify.OptionSelectors( "product-select",
+					{
+						product: {{ product | json }},
+						onVariantSelected: selectCallback,
+						enableHistoryState: true 
+					});
+				});
+			</script>
+		{% endif %}
+
+<!-- CART PAGE SCRIPTS -->
+	{% when 'cart' %}
+		<script>
+		// AJAX CART MINI
+		jQuery(function(a){a("#cart_loader").addClass("loader_off").removeClass("loader_on"),cartReload=function(t,e){a(document).on("click",t,function(t){if(t.preventDefault(),a("#cart_loader").addClass("loader_on").removeClass("loader_off"),"update"==e){var r={};a.each(a(".cart_item"),function(){r[a(this).attr("data-id")]=a(this).find(".quantity_input").val()});var o={updates:r},c='/cart/update.js?t={{ "now" | date: "%H%M%S" }}'}else if("remove"==e)var n=a(this).attr("title"),o={line:n,quantity:0},c='/cart/change.js?t={{ "now" | date: "%H%M%S" }}';else if("clear"==e)var o="",c='/cart/clear.js?t={{ "now" | date: "%H%M%S" }}';a.post(c,o,function(t){a("#cart_items").html(t.item_count),a("#cart_content").load('/cart?t={{ "now" | date: "%H%M%S" }} #cart_content > *',function(){currencyToggle("span.money"),a("#cart_loader").addClass("loader_off").removeClass("loader_on")})},"json")})},cartReload(".cart_update","update"),cartReload(".cart_item__remove","remove"),cartReload("#cart_clear","clear")});
+		</script>
+{% endcase %}
+
+{% if template contains 'customers' %}
+	<!-- CUSTOMERS PAGES SCRIPTS -->
+	{{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+	{{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+{% endif %}
+
+{% case template %}
+	{% when 'product', 'article' %}
+		<!-- ADDTHIS BUTTONS -->
+		<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-558beeaf50b4f3a3" async="async"></script>
+{% endcase %}
+
+{% if settings.promobanner_toggle %}
+	<!-- PROMOBANNER -->
+	<script>
+		{% raw %}
+		// jQuery Knob - https://github.com/aterrien/jQuery-Knob
+		!function(t){"object"==typeof exports?module.exports=t(require("jquery")):"function"==typeof define&&define.amd?define(["jquery"],t):t(jQuery)}(function(t){"use strict";var i={},s=Math.max,h=Math.min;i.c={},i.c.d=t(document),i.c.t=function(t){return t.originalEvent.touches.length-1},i.o=function(){var s=this;this.o=null,this.$=null,this.i=null,this.g=null,this.v=null,this.cv=null,this.x=0,this.y=0,this.w=0,this.h=0,this.$c=null,this.c=null,this.t=0,this.isInit=!1,this.fgColor=null,this.pColor=null,this.dH=null,this.cH=null,this.eH=null,this.rH=null,this.scale=1,this.relative=!1,this.relativeWidth=!1,this.relativeHeight=!1,this.$div=null,this.run=function(){var i=function(t,i){var h;for(h in i)s.o[h]=i[h];s._carve().init(),s._configure()._draw()};if(!this.$.data("kontroled")){if(this.$.data("kontroled",!0),this.extend(),this.o=t.extend({min:void 0!==this.$.data("min")?this.$.data("min"):0,max:void 0!==this.$.data("max")?this.$.data("max"):100,stopper:!0,readOnly:this.$.data("readonly")||"readonly"===this.$.attr("readonly"),cursor:this.$.data("cursor")===!0&&30||this.$.data("cursor")||0,thickness:this.$.data("thickness")&&Math.max(Math.min(this.$.data("thickness"),1),.01)||.35,lineCap:this.$.data("linecap")||"butt",width:this.$.data("width")||200,height:this.$.data("height")||200,displayInput:null==this.$.data("displayinput")||this.$.data("displayinput"),displayPrevious:this.$.data("displayprevious"),fgColor:this.$.data("fgcolor")||"#87CEEB",inputColor:this.$.data("inputcolor"),font:this.$.data("font")||"Arial",fontWeight:this.$.data("font-weight")||"bold",inline:!1,step:this.$.data("step")||1,rotation:this.$.data("rotation"),draw:null,change:null,cancel:null,release:null,format:function(t){return t},parse:function(t){return parseFloat(t)}},this.o),this.o.flip="anticlockwise"===this.o.rotation||"acw"===this.o.rotation,this.o.inputColor||(this.o.inputColor=this.o.fgColor),this.$.is("fieldset")?(this.v={},this.i=this.$.find("input"),this.i.each(function(i){var h=t(this);s.i[i]=h,s.v[i]=s.o.parse(h.val()),h.bind("change blur",function(){var t={};t[i]=h.val(),s.val(s._validate(t))})}),this.$.find("legend").remove()):(this.i=this.$,this.v=this.o.parse(this.$.val()),""===this.v&&(this.v=this.o.min),this.$.bind("change blur",function(){s.val(s._validate(s.o.parse(s.$.val())))})),!this.o.displayInput&&this.$.hide(),this.$c=t(document.createElement("canvas")).attr({width:this.o.width,height:this.o.height}),this.$div=t('<div style="'+(this.o.inline?"display:inline;":"")+"width:"+this.o.width+"px;height:"+this.o.height+'px;"></div>'),this.$.wrap(this.$div).before(this.$c),this.$div=this.$.parent(),"undefined"!=typeof G_vmlCanvasManager&&G_vmlCanvasManager.initElement(this.$c[0]),this.c=this.$c[0].getContext?this.$c[0].getContext("2d"):null,!this.c)throw{name:"CanvasNotSupportedException",message:"Canvas not supported. Please use excanvas on IE8.0.",toString:function(){return this.name+": "+this.message}};return this.scale=(window.devicePixelRatio||1)/(this.c.webkitBackingStorePixelRatio||this.c.mozBackingStorePixelRatio||this.c.msBackingStorePixelRatio||this.c.oBackingStorePixelRatio||this.c.backingStorePixelRatio||1),this.relativeWidth=this.o.width%1!==0&&this.o.width.indexOf("%"),this.relativeHeight=this.o.height%1!==0&&this.o.height.indexOf("%"),this.relative=this.relativeWidth||this.relativeHeight,this._carve(),this.v instanceof Object?(this.cv={},this.copy(this.v,this.cv)):this.cv=this.v,this.$.bind("configure",i).parent().bind("configure",i),this._listen()._configure()._xy().init(),this.isInit=!0,this.$.val(this.o.format(this.v)),this._draw(),this}},this._carve=function(){if(this.relative){var t=this.relativeWidth?this.$div.parent().width()*parseInt(this.o.width)/100:this.$div.parent().width(),i=this.relativeHeight?this.$div.parent().height()*parseInt(this.o.height)/100:this.$div.parent().height();this.w=this.h=Math.min(t,i)}else this.w=this.o.width,this.h=this.o.height;return this.$div.css({width:this.w+"px",height:this.h+"px"}),this.$c.attr({width:this.w,height:this.h}),1!==this.scale&&(this.$c[0].width=this.$c[0].width*this.scale,this.$c[0].height=this.$c[0].height*this.scale,this.$c.width(this.w),this.$c.height(this.h)),this},this._draw=function(){var t=!0;s.g=s.c,s.clear(),s.dH&&(t=s.dH()),t!==!1&&s.draw()},this._touch=function(t){var h=function(t){var i=s.xy2val(t.originalEvent.touches[s.t].pageX,t.originalEvent.touches[s.t].pageY);i!=s.cv&&(s.cH&&s.cH(i)===!1||(s.change(s._validate(i)),s._draw()))};return this.t=i.c.t(t),h(t),i.c.d.bind("touchmove.k",h).bind("touchend.k",function(){i.c.d.unbind("touchmove.k touchend.k"),s.val(s.cv)}),this},this._mouse=function(t){var h=function(t){var i=s.xy2val(t.pageX,t.pageY);i!=s.cv&&(s.cH&&s.cH(i)===!1||(s.change(s._validate(i)),s._draw()))};return h(t),i.c.d.bind("mousemove.k",h).bind("keyup.k",function(t){if(27===t.keyCode){if(i.c.d.unbind("mouseup.k mousemove.k keyup.k"),s.eH&&s.eH()===!1)return;s.cancel()}}).bind("mouseup.k",function(){i.c.d.unbind("mousemove.k mouseup.k keyup.k"),s.val(s.cv)}),this},this._xy=function(){var t=this.$c.offset();return this.x=t.left,this.y=t.top,this},this._listen=function(){return this.o.readOnly?this.$.attr("readonly","readonly"):(this.$c.bind("mousedown",function(t){t.preventDefault(),s._xy()._mouse(t)}).bind("touchstart",function(t){t.preventDefault(),s._xy()._touch(t)}),this.listen()),this.relative&&t(window).resize(function(){s._carve().init(),s._draw()}),this},this._configure=function(){return this.o.draw&&(this.dH=this.o.draw),this.o.change&&(this.cH=this.o.change),this.o.cancel&&(this.eH=this.o.cancel),this.o.release&&(this.rH=this.o.release),this.o.displayPrevious?(this.pColor=this.h2rgba(this.o.fgColor,"0.4"),this.fgColor=this.h2rgba(this.o.fgColor,"0.6")):this.fgColor=this.o.fgColor,this},this._clear=function(){this.$c[0].width=this.$c[0].width},this._validate=function(t){var i=~~((0>t?-.5:.5)+t/this.o.step)*this.o.step;return Math.round(100*i)/100},this.listen=function(){},this.extend=function(){},this.init=function(){},this.change=function(){},this.val=function(){},this.xy2val=function(){},this.draw=function(){},this.clear=function(){this._clear()},this.h2rgba=function(t,i){var s;return t=t.substring(1,7),s=[parseInt(t.substring(0,2),16),parseInt(t.substring(2,4),16),parseInt(t.substring(4,6),16)],"rgba("+s[0]+","+s[1]+","+s[2]+","+i+")"},this.copy=function(t,i){for(var s in t)i[s]=t[s]}},i.Dial=function(){i.o.call(this),this.startAngle=null,this.xy=null,this.radius=null,this.lineWidth=null,this.cursorExt=null,this.w2=null,this.PI2=2*Math.PI,this.extend=function(){this.o=t.extend({bgColor:this.$.data("bgcolor")||"#535353",angleOffset:this.$.data("angleoffset")||0,angleArc:this.$.data("anglearc")||360,inline:!0},this.o)},this.val=function(t,i){return null==t?this.v:(t=this.o.parse(t),void(i!==!1&&t!=this.v&&this.rH&&this.rH(t)===!1||(this.cv=this.o.stopper?s(h(t,this.o.max),this.o.min):t,this.v=this.cv,this.$.val(this.o.format(this.v)),this._draw())))},this.xy2val=function(t,i){var e,n;return e=Math.atan2(t-(this.x+this.w2),-(i-this.y-this.w2))-this.angleOffset,this.o.flip&&(e=this.angleArc-e-this.PI2),this.angleArc!=this.PI2&&0>e&&e>-.5?e=0:0>e&&(e+=this.PI2),n=e*(this.o.max-this.o.min)/this.angleArc+this.o.min,this.o.stopper&&(n=s(h(n,this.o.max),this.o.min)),n},this.listen=function(){var i,e,n,a,o=this,r=function(t){t.preventDefault();var n=t.originalEvent,a=n.detail||n.wheelDeltaX,r=n.detail||n.wheelDeltaY,l=o._validate(o.o.parse(o.$.val()))+(a>0||r>0?o.o.step:0>a||0>r?-o.o.step:0);l=s(h(l,o.o.max),o.o.min),o.val(l,!1),o.rH&&(clearTimeout(i),i=setTimeout(function(){o.rH(l),i=null},100),e||(e=setTimeout(function(){i&&o.rH(l),e=null},200)))},l=1,c={37:-o.o.step,38:o.o.step,39:o.o.step,40:-o.o.step};this.$.bind("keydown",function(i){var e=i.keyCode;if(e>=96&&105>=e&&(e=i.keyCode=e-48),n=parseInt(String.fromCharCode(e)),isNaN(n)&&(13!==e&&8!==e&&9!==e&&189!==e&&(190!==e||o.$.val().match(/\./))&&i.preventDefault(),t.inArray(e,[37,38,39,40])>-1)){i.preventDefault();var r=o.o.parse(o.$.val())+c[e]*l;o.o.stopper&&(r=s(h(r,o.o.max),o.o.min)),o.change(o._validate(r)),o._draw(),a=window.setTimeout(function(){l*=2},30)}}).bind("keyup",function(){isNaN(n)?a&&(window.clearTimeout(a),a=null,l=1,o.val(o.$.val())):o.$.val()>o.o.max&&o.$.val(o.o.max)||o.$.val()<o.o.min&&o.$.val(o.o.min)}),this.$c.bind("mousewheel DOMMouseScroll",r),this.$.bind("mousewheel DOMMouseScroll",r)},this.init=function(){(this.v<this.o.min||this.v>this.o.max)&&(this.v=this.o.min),this.$.val(this.v),this.w2=this.w/2,this.cursorExt=this.o.cursor/100,this.xy=this.w2*this.scale,this.lineWidth=this.xy*this.o.thickness,this.lineCap=this.o.lineCap,this.radius=this.xy-this.lineWidth/2,this.o.angleOffset&&(this.o.angleOffset=isNaN(this.o.angleOffset)?0:this.o.angleOffset),this.o.angleArc&&(this.o.angleArc=isNaN(this.o.angleArc)?this.PI2:this.o.angleArc),this.angleOffset=this.o.angleOffset*Math.PI/180,this.angleArc=this.o.angleArc*Math.PI/180,this.startAngle=1.5*Math.PI+this.angleOffset,this.endAngle=1.5*Math.PI+this.angleOffset+this.angleArc;var t=s(String(Math.abs(this.o.max)).length,String(Math.abs(this.o.min)).length,2)+2;this.o.displayInput&&this.i.css({width:(this.w/2+4>>0)+"px",height:(this.w/3>>0)+"px",position:"absolute","vertical-align":"middle","margin-top":(this.w/3>>0)+"px","margin-left":"-"+(3*this.w/4+2>>0)+"px",border:0,background:"none",font:this.o.fontWeight+" "+(this.w/t>>0)+"px "+this.o.font,"text-align":"center",color:this.o.inputColor||this.o.fgColor,padding:"0px","-webkit-appearance":"none"})||this.i.css({width:"0px",visibility:"hidden"})},this.change=function(t){this.cv=t,this.$.val(this.o.format(t))},this.angle=function(t){return(t-this.o.min)*this.angleArc/(this.o.max-this.o.min)},this.arc=function(t){var i,s;return t=this.angle(t),this.o.flip?(i=this.endAngle+1e-5,s=i-t-1e-5):(i=this.startAngle-1e-5,s=i+t+1e-5),this.o.cursor&&(i=s-this.cursorExt)&&(s+=this.cursorExt),{s:i,e:s,d:this.o.flip&&!this.o.cursor}},this.draw=function(){var t,i=this.g,s=this.arc(this.cv),h=1;i.lineWidth=this.lineWidth,i.lineCap=this.lineCap,"none"!==this.o.bgColor&&(i.beginPath(),i.strokeStyle=this.o.bgColor,i.arc(this.xy,this.xy,this.radius,this.endAngle-1e-5,this.startAngle+1e-5,!0),i.stroke()),this.o.displayPrevious&&(t=this.arc(this.v),i.beginPath(),i.strokeStyle=this.pColor,i.arc(this.xy,this.xy,this.radius,t.s,t.e,t.d),i.stroke(),h=this.cv==this.v),i.beginPath(),i.strokeStyle=h?this.o.fgColor:this.fgColor,i.arc(this.xy,this.xy,this.radius,s.s,s.e,s.d),i.stroke()},this.cancel=function(){this.val(this.v)}},t.fn.dial=t.fn.knob=function(s){return this.each(function(){var h=new i.Dial;h.o=s,h.$=t(this),h.run()}).parent()}});
+
+		// jQuery Circular CountDown - https://github.com/nikhiln/Circular-Countdown
+		!function(e){e.fn.ccountdown=function(a,t,n,r,d){var o,g=this,i=new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"),c=(new Date,function(){var c=new Date,u=c.getYear();1e3>u&&(u+=1900);var h=c.getMonth(),l=c.getDate(),f=c.getHours(),s=c.getMinutes(),_=c.getSeconds();_="0"+_,_=_.substr(_.length-2);var v=i[h]+" "+l+", "+u+" "+f+":"+s+":"+_,M=i[t-1]+" "+n+", "+a+" "+r;_dd=Date.parse(M)-Date.parse(v),_dday=Math.floor(_dd/864e5*1),_dhour=Math.floor(_dd%864e5/36e5*1),_dmin=Math.floor(_dd%864e5%36e5/6e4*1),_dsec=Math.floor(_dd%5184e6%36e5%6e4/1e3*1);var y=e(g),w=y.find(".second"),D=y.find(".minute"),p=y.find(".hour"),m=y.find(".days");w.val(_dsec).trigger("change"),D.val(_dmin).trigger("change"),p.val(_dhour).trigger("change"),m.val(_dday).trigger("change"),0==_dd&&(window.clearInterval(o),"function"==typeof d&&d.call(this))});c(),o=setInterval(c,1e3)}}(jQuery);
+
+		// COUNTER INIT
+		$(function(){$(".knob").knob({draw:function(){if("tron"==this.$.data("skin")){var t,i=this.angle(this.cv),s=this.startAngle,h=this.startAngle,n=h+i,o=!0;return this.g.lineWidth=this.lineWidth,this.o.cursor&&(h=n-.3)&&(n+=.3),this.o.displayPrevious&&(t=this.startAngle+this.angle(this.value),this.o.cursor&&(s=t+.3)&&(t-=.3),this.g.beginPath(),this.g.strokeStyle=this.previousColor,this.g.arc(this.xy,this.xy,this.radius-this.lineWidth,s,t,!1),this.g.stroke()),this.g.beginPath(),this.g.strokeStyle=o?this.o.fgColor:this.fgColor,this.g.arc(this.xy,this.xy,this.radius-this.lineWidth,h,n,!1),this.g.stroke(),this.g.lineWidth=2,this.g.beginPath(),this.g.strokeStyle=this.o.fgColor,this.g.arc(this.xy,this.xy,this.radius-this.lineWidth+1+2*this.lineWidth/3,0,2*Math.PI,!1),this.g.stroke(),!1}}});var t,i=0,s=0,h=0,n=$("div.idir"),o=$("div.ival"),e=function(){h++,n.show().html("+").fadeOut(),o.html(h)},r=function(){h--,n.show().html("-").fadeOut(),o.html(h)};$("input.infinite").knob({min:0,max:20,stopper:!1,change:function(){t>this.cv?i?(r(),i=0):(i=1,s=0):t<this.cv&&(s?(e(),s=0):(s=1,i=0)),t=this.cv}})});
+		{% endraw %}
+
+		jQuery(function($){
+			if ( $.cookie('promobanner_toggle') && $.cookie('promobanner_toggle') == 'disabled' ) {
+				$('#promobanner').hide();
+			}
+			else {
+				$('#promobanner_close').on('click', function(e) {
+					e.preventDefault();
+					$.cookie('promobanner_toggle', 'disabled');
+					$('#promobanner').slideUp();
+				});
+			};
+		});
+	</script>
+{% endif %}
+
+<!-- COMMON SCRIPTS -->
+{% if settings.smoothscroll_toggle %}
+	{{ 'rd-smoothscroll.min.js' | asset_url | script_tag }}
+{% endif %}
+{{ 'jquery.fancybox.min.js' | asset_url | script_tag }}
+{{ 'jquery.api.js' | asset_url | script_tag }}
+{{ 'jquery.ajax-cart.js' | asset_url | script_tag }}
+{{ 'shop.js' | asset_url | script_tag }}

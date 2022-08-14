@@ -1,0 +1,3 @@
+License info:
+
+The theme is released under GNU GPLv2 license (check license.txt for more info). Please note that stock images used in this theme and .psd source files does not fall under the GPL license. All the third-party plugins in our themes (in case there are any) may not be licensed under the GPL and it's your responsibility to check what license they are covered by.

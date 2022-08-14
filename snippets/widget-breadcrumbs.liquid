@@ -1,0 +1,38 @@
+{% if template != 'index' %}
+<div class="breadcrumb_wrap">
+	<div class="container">
+		<ul class="breadcrumb">
+			<li><a href="/" class="homepage-link" title="Back to the frontpage">Home</a></li>
+			{% if template contains "product" %}
+				{% if collection %}
+					{% if collection.handle %}
+						<li>
+							{% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+							{{ collection.title | link_to: url }}
+						 </li>
+					{% elsif collection.all_products_count > 0 and collection.products.first.type == collection.title %}
+						<li>{{ collection.title | link_to_type }} </li>
+					{% elsif collection.all_products_count > 0 and collection.products.first.vendor == collection.title %}
+						<li>{{ collection.title | link_to_vendor }} </li>
+					{% endif %}
+				{% else %}
+					<li>{{ product.type | link_to_type }} </li>
+				{% endif %}
+				<li><span class="page-title">{{ page_title }}</span></li>
+			{% elsif template == "article" %}
+				<li>{{ blog.title | link_to: blog.url }} </li>
+				<li><span class="page-title">{{ page_title }}</span></li>
+			{% elsif template contains "collection" %}
+				{% if current_tags.size > 0 %}
+					<li>{{ collection.title | link_to: collection.url }} </li>
+					<li><span class="page-title">{{ current_tags.first }}</span></li>
+				{% else %}
+			        <li><span class="page-title">{{ page_title }}</span></li> <!--changed variable-->
+				{% endif %}
+			{% else %}
+				<li><span class="page-title">{{ page_title }}</span></li>
+			{% endif %}
+		</ul>
+	</div>
+</div>
+{% endif %}

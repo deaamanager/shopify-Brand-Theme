@@ -1,0 +1,61 @@
+<div id="google_map"></div>
+
+<script src="//maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+<script type="text/javascript">
+var map;
+
+function initialize() {
+
+    var latlng = new google.maps.LatLng(0, 0);
+
+    var mapOptions = {
+        center: latlng,
+        zoom: 17,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        panControl: false,
+        zoomControl: true,
+        mapTypeControl: false,
+        scaleControl: false,
+        scrollwheel: false,
+    };
+
+    map = new google.maps.Map(document.getElementById('google_map'), mapOptions);
+
+    var geocoder = new google.maps.Geocoder();
+
+    var address = '{{ settings.google_map_address }}';
+    geocoder.geocode( { 'address': address}, function(results, status){
+		if (status == google.maps.GeocoderStatus.OK) {
+			map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({map: map, position: results[0].geometry.location, icon: markerImage });
+        } else {
+			alert("Geocode was not successful for the following reason: " + status);
+        }
+    });
+
+    var markerImage = new google.maps.MarkerImage(
+        '{{ 'marker.png' | asset_url }}',
+        new google.maps.Size(24,36), // marker size
+        new google.maps.Point(0,0),
+        new google.maps.Point(12,36) // marker center point
+    );
+
+    var styles = [
+        {
+          stylers: [
+              { saturation: -85 },
+              { lightness: 13 }
+          ]
+        },{
+          featureType: "road.highway",
+          elementType: "geometry",
+          stylers: [
+            { color: '#ffffff' }
+          ]
+        }
+    ];
+
+    map.setOptions({styles: styles});
+}
+</script>

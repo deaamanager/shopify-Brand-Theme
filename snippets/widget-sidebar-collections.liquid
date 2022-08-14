@@ -1,0 +1,15 @@
+<div class="sidebar_widget sidebar_widget__collections">
+    <h3 class="widget_header">Collections</h3>
+
+    <div class="widget_content">
+        <ul class="list_links">
+            {% for collection in collections %}
+                {% capture tmp_col %}{{ collection.title | remove:' ' | remove:'&amp;' | remove:'&' }}{% endcapture %}
+                {% capture tmp_title %}{{ page_title | remove:' ' | remove:'&amp;' | remove:'&' }}{% endcapture %}
+                <li class="{{ collection.handle }}{% if tmp_col == tmp_title %} active{% endif %}">
+                    <a href="{{ collection.url }}" title="{{ collection.title | escape }}">{{ collection.title | escape }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

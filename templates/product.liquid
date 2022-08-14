@@ -1,0 +1,159 @@
+<div itemscope itemtype="http://schema.org/Product" class="product-scope">
+	
+	<meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+	<meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}" />
+
+	{% assign product_vendor_handle = product.vendor | handle %}
+	{% comment %}
+	Do we have a collection that has the same name as our product vendor name?
+	If we do, let's have the vendor link point to it.
+	If not, we will point to the automatic vendor collection.
+	{% endcomment %}
+	{% if collections[product_vendor_handle].handle == product_vendor_handle %}
+		{% assign vendor_url = collections[product_vendor_handle].url %}
+	{% else %}
+		{% assign vendor_url = product.vendor | url_for_vendor %}
+	{% endif %}
+
+	<div class="product_wrap">
+		<div class="row">
+			<div class="col-sm-5 col-md-4 product_images product_left">
+				{% if product.images.size != 0 %}
+					{% if product.images.size > 1 %}
+						{% for image in product.images limit:1 %}
+							<div class="elevatezoom_big_wrapper">
+								<img id="elevatezoom_big" src="{{ image.src | product_img_url: 'grande' }}" alt="{{ product.title | escape }}" data-zoom-image="{{ image.src | product_img_url: 'grande' }}" />
+								<div class="elevatezoom_big_clicker"></div>
+							</div>
+						{% endfor %}
+
+						<div id="elevatezoom_gallery">
+							{% for image in product.images %}
+								<a href="#" data-image="{{ image.src | product_img_url: 'grande' }}" data-zoom-image="{{ image.src | product_img_url: 'grande' }}">
+									<img src="{{ image.src | product_img_url: 'compact' }}" alt="{{ product.title | escape }}" />
+								</a>
+							{% endfor %}
+						</div>
+					{% else %}
+						<img id="elevatezoom_big" class="fancybox" src="{{ product.featured_image.src | product_img_url: 'grande' }}" data-zoom-image="{{ product.featured_image.src | product_img_url: 'grande' }}" alt="{{ product.title | escape }}" />
+					{% endif %}
+				{% endif %}
+			</div>
+
+			<div class="col-sm-7 col-md-8">
+				{% if product.available %}
+					{% assign hide_default_title = false %}
+					{% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+						{% assign hide_default_title = true %}
+					{% endif %}
+
+					<form action="/cart/add" method="post" enctype="multipart/form-data" id="product-actions">
+						<div class="product_info__wrapper">
+							<div class="product_info__left">
+								<div itemprop="name" class="product_name">{{ product.title }}</div>
+
+								<div class="options clearfix">
+									<div class="variants-wrapper {% if hide_default_title %}hidden{% endif %}">
+										<select id="product-select" name="id">
+											{% for variant in product.variants %}
+											<option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+
+								<div class="product_details">
+									<p class="product_details__item product_weight"><span class="product_info_title">Weight:</span> <span id="product_weight"></span></p>
+									<p class="product_details__item product_sku"><span class="product_info_title">SKU:</span> <span id="product_sku"></span></p>
+									<p class="product_details__item product_barcode"><span class="product_info_title">Barcode:</span> <span id="product_barcode"></span></p>
+								</div>
+
+								<div class="product_details">
+									{% if product.collections.size >= 1 %}
+										<p class="product_details__item product_collections"><span class="product_info_title">Collections:</span> <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>{% for collection in product.collections offset:1 %}, <a href="{{ collection.url }}">{{ collection.title }}</a>{% endfor %}</p>
+									{% endif %}
+									<p class="product_details__item product_type"><span class="product_info_title">Product type:</span> {{ product.type | link_to_type }}</p>
+									<p class="product_details__item product_vendor"><span class="product_info_title">Vendor:</span> {{ product.vendor | link_to_vendor }}</p>
+									{% if product.tags.size >= 1 %}
+										<p class="product_details__item product_tags"><span class="product_info_title">Tags:</span> <span>{{ product.tags | first }}</span>{% for tag in product.tags offset:1 %}, <span>{{ tag }}</span>{% endfor %}</p>
+									{% endif %}
+								</div>
+							</div>
+
+							<div class="product_info__right">
+								<div id="product_price">
+									<p class="price product-price"></p>
+								</div>
+
+								<p class="product_details__item" id="product_quantity"><b>Availability:</b> <span></span></p>
+
+								<div id="purchase">
+									<p>Choose quantity:</p>
+
+									<div class="quantity_box">
+										<input type="text" name="quantity" value="1" class="quantity_input" />
+										<span class="quantity_modifier quantity_down"><i class="fa fa-minus"></i></span>
+										<span class="quantity_modifier quantity_up"><i class="fa fa-plus"></i></span>
+									</div>
+
+									<button class="btn btn-cart" type="submit" id="add-to-cart">Add to cart</button>
+								</div>
+
+								<div class="addthis_sharing_toolbox"></div>
+							</div>
+						</div>
+					</form>
+				{% else %}
+					<div class="product_info__wrapper">
+						<div class="product_info__left">
+							<div itemprop="name" class="product_name">{{ product.title }}</div>
+
+							<div class="product_details">
+								{% if product.collections.size >= 1 %}
+									<p class="product_details__item product_collections"><span class="product_info_title">Collections:</span> <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>{% for collection in product.collections offset:1 %}, <a href="{{ collection.url }}">{{ collection.title }}</a>{% endfor %}</p>
+								{% endif %}
+								<p class="product_details__item product_type"><span class="product_info_title">Product type:</span> {{ product.type | link_to_type }}</p>
+								<p class="product_details__item product_vendor"><span class="product_info_title">Vendor:</span> {{ product.vendor | link_to_vendor }}</p>
+								{% if product.tags.size >= 1 %}
+									<p class="product_details__item product_tags"><span class="product_info_title">Tags:</span> <span>{{ product.tags | first }}</span>{% for tag in product.tags offset:1 %}, <span>{{ tag }}</span>{% endfor %}</p>
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="product_info__right">
+							<div id="product_price">
+								<p class="price product-price"><span class="money">{{ product.price | money }}</span></p>
+								<p class="product_details__item" id="product_quantity"><b>Availability:</b> <span class="notify_danger">Unavailable</span></p>
+							</div>
+
+							<div class="addthis_sharing_toolbox"></div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+		</div><!-- /.row -->
+
+		<div class="product_description">
+			<h3 class="product_description__title">Description</h3>
+
+			<div class="rte" itemprop="description">
+				{{ product.description }}
+			</div>
+		</div>
+
+		{% if collection %}
+			{% if collection.previous_product or collection.next_product %}
+				<p class="product_pagination">
+					{% if collection.previous_product %}
+						<a href="{{ collection.previous_product}}" class="btn product_prev">&larr; Previous Product</a>
+					{% endif %}
+					{% if collection.next_product %}
+						<a href="{{ collection.next_product}}" class="btn product_next">Next Product &rarr;</a>
+					{% endif %}
+				</p>
+			{% endif %}
+		{% endif %}
+	</div><!-- /.product_wrap -->
+</div>
+
+{% include 'widget-related-products' %}

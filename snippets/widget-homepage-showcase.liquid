@@ -1,0 +1,23 @@
+<div id="showcase">
+<div class="row showcase_row">
+    {% for i in (1..3) %}
+    	{% capture link %}custom_showcase{{ i }}_link{% endcapture %}
+    	{% capture img_toggle %}custom_showcase{{ i }}_img_toggle{% endcapture %}
+    	{% capture img_file %}custom_showcase{{ i }}_img.jpg{% endcapture %}
+    	{% capture text1 %}custom_showcase{{ i }}_text1{% endcapture %}
+    	{% capture text2 %}custom_showcase{{ i }}_text2{% endcapture %}
+
+    	{% if settings[link] != '' or settings[text1] != '' or settings[text2] != '' %}
+            <div class="col-sm-4 custom_showcase custom_showcase__{{ i }}">
+                <a href="{{ settings[link] }}">
+                {% if settings[img_toggle] and settings[img_toggle] != '' %}<img src="{{ img_file | asset_url }}" alt="{{ settings[text1] }} {{ settings[text2] }}" />{% endif %}
+                <div class="showcase_text">
+                    <h4>{{ settings[text1] }}</h4>
+                    <h3>{{ settings[text2] }}</h3>
+                </div>
+                </a>
+            </div>
+      	{% endif %}
+    {% endfor %}
+</div>
+</div>

@@ -1,0 +1,22 @@
+<div class="cookies_container">
+<div class="container">
+	<p><b>{{ settings.cookies_policy_tagline }} </b>{{ settings.cookies_policy_text }}</p>
+	<a href="" class="cookie_btn cookie_ok">OK, I don't mind using cookies</a>
+	<a href="{{ settings.cookies_policy_redirect }}" class="cookie_btn cookie_no">No thanks</a>
+</div>
+</div>
+
+<script type="text/javascript">
+(function($) {
+    $(document).ready(function(){
+        if ($.cookie("cookies_ok") != 1) {
+            $(".cookies_container").show();
+            $(".cookie_ok").click(function () {
+                $.cookie("cookies_ok", 1, { expires : {% if settings.cookies_policy_expire and settings.cookies_policy_expire != '' %}{{ settings.cookies_policy_expire | plus: 0 }}{% endif %} });
+                $(this).parent().parent().slideUp("slow");
+                return false;
+            });
+        };
+    });
+})(jQuery);
+</script>
